@@ -49,7 +49,7 @@ Android 애플리케이션은 **4가지 주요 컴포넌트**로 구성됨.
 
 📌 **인텐트 사용의 예**
 <p align="left">
-<img src="https://github.com/user-attachments/assets/9cf6eef1-6d6c-4a4d-9692-fcfe88149c61" width="550">
+<img src="https://github.com/user-attachments/assets/426aeed8-dc63-48e7-839c-976b1773e3e7" width="550">
 </p>
 
 ---
@@ -65,7 +65,7 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 | **매니페스트(Manifest) 파일** | 앱의 정보 및 권한 설정 |
 | **리소스 (drawable, values)** | 이미지, 색상, 문자열 등 포함 |
 <p align="left">
-<img src="https://github.com/user-attachments/assets/43068496-eced-455f-aaa5-71f53922d144" width="550">
+<img src="https://github.com/user-attachments/assets/01c9c1f2-26dc-4ced-a764-fad0fd504f04" width="550">
 </p>
 
 ---
@@ -77,7 +77,7 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 3. **매니페스트 파일 작성**
 4. **애플리케이션 실행 및 디버깅**
 <p align="left">
-<img src="https://github.com/user-attachments/assets/ea8dcd1d-00e3-44b7-b170-2b473e8a99e0" width="550">
+<img src="https://github.com/user-attachments/assets/f5da3134-fa11-4baf-95b5-7802f1131fa9" width="550">
 </p>
 
 ---
@@ -105,17 +105,17 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 ---
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/ca52633e-296b-48cc-97b6-d79261e5ec17" width="550">
-  <img src="https://github.com/user-attachments/assets/b92e84e9-8faf-472f-88b8-ea9ccb5dc115" width="400">
+  <img src="https://github.com/user-attachments/assets/af1cbba3-a7f1-46eb-b135-3d36eb179dc1" width="550">
+  <img src="https://github.com/user-attachments/assets/7fd43403-50de-4cb7-9e5e-4648fce0b126" width="400">
 </p>
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/63051514-89c5-4e84-a1b4-67ba8026641f" width="425">
-  <img src="https://github.com/user-attachments/assets/77fd96d4-c79c-4f7a-b5f9-2aa174ed3c55" width="565">
+  <img src="https://github.com/user-attachments/assets/1de5d784-5e93-4bc3-ab3e-3eb01b66646c" width="425">
+  <img src="https://github.com/user-attachments/assets/c8e3e53b-0b18-43bf-a963-42506ee28c56" width="565">
 </p>
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/b6d12f15-2f5b-41e4-bd59-2353ab13cdb6" width="800">
+  <img src="![스크린샷 2025-03-14 003535](https://github.com/user-attachments/assets/4233a361-e2f6-4e95-90ad-12ae8a363e85" width="800">
 </p>
 
 ---
