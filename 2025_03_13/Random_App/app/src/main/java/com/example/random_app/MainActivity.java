@@ -11,7 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Random;
-//
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView textViewRandomNumber;
