@@ -115,7 +115,7 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 </p>
 
 <p align="left">
-  <img src="![스크린샷 2025-03-14 003535](https://github.com/user-attachments/assets/4233a361-e2f6-4e95-90ad-12ae8a363e85" width="800">
+  <img src="https://github.com/user-attachments/assets/4233a361-e2f6-4e95-90ad-12ae8a363e85" width="800">
 </p>
 
 ---
