@@ -179,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
 </LinearLayout>
 ```
 
+---
+
 ## 예제: 에디트 텍스트 사용하기 1
 
 ### 📌 MainActivity.java
@@ -277,6 +279,8 @@ public class MainActivity extends AppCompatActivity {
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
+
+---
 
 ## 과제1: 에디트 텍스트 사용하기 2
 
@@ -404,6 +408,6 @@ public class MainActivity extends AppCompatActivity {
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-
+---
 
 
