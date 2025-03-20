@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 ## 예제: 에디트 텍스트 사용하기 1
 
 <p align="left">
-<img src="https://github.com/user-attachments/assets/f5e1f37e-794e-4f2f-8711-2f04532c88a3"
+<img src="https://github.com/user-attachments/assets/7e91269c-9393-439b-886e-35e951711b95"
 width="200">
 </p>
 
