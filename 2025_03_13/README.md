@@ -410,6 +410,11 @@ public class MainActivity extends AppCompatActivity {
 
 ## 예제: 이미지 속성 변경
 
+<p align="left">
+<img src="https://github.com/user-attachments/assets/25342a8f-64f2-4203-aae2-b5709b3afa22"
+width="800">
+</p>
+
 ### 📌 MainActivity.java
 
 ```java
