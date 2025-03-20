@@ -1,6 +1,8 @@
 package com.example.image_app;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private ImageView imageView; // XML_ID : imageView3
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +27,38 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        imageView = findViewById(R.id.imageView3);
+
+    }
+
+    public void changeScaleType(View view) {
+        ImageView.ScaleType[] scaleTypes{
+
+
+            
+
+        }
+    }
+
+    public void changeRotation(View view) {
+        imageView.setRotation(imageView.getRotation()+45);
+    }
+
+    public void changeAlpha(View view) {
+
+        float alpha = imageView.getAlpha();
+
+
+        // alpha = (alpha == 1.0f) ? 0.5f : 1.0f;
+
+        if (alpha == 1.0f){
+            alpha = 0.5f;
+        }
+        else alpha = 1.0f;
+
+
+        imageView.setAlpha(alpha);
+
     }
 }
