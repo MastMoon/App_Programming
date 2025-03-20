@@ -284,6 +284,11 @@ public class MainActivity extends AppCompatActivity {
 
 ## 과제1: 에디트 텍스트 사용하기 2
 
+<p align="left">
+<img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93"
+width="800">
+</p>
+
 ### 📌 MainActivity.java
 
 ```java
