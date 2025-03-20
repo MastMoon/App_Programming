@@ -426,7 +426,6 @@ public class MainActivity extends AppCompatActivity {
 
 <p align="left"">
 <img src="https://github.com/user-attachments/assets/93c389b3-a284-4572-adae-41cea22d5236"width="300">
-<p align="left">
 <img src="https://github.com/user-attachments/assets/50d5822b-0812-434d-baae-0b0a62241368"width="300">
 </p>
 <p align="left">
