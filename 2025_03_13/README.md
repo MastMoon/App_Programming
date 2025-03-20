@@ -9,7 +9,7 @@
 - **3/13(목)** : 3. 기본 위젯(1)
 
 ## ✅ 3주차
-- **3/18(화)** : 3. 기본 위젯(2) **과제1: 에디트 텍스트 사용하기 2**
+- **3/18(화)** : 3. 기본 위젯(2), **과제1: 에디트 텍스트 사용하기 2**
 - **3/20(목)** : 수업 예정
 
 ## ✅ 4주차
@@ -179,10 +179,103 @@ public class MainActivity extends AppCompatActivity {
 </LinearLayout>
 ```
 
-## 예제: 에디트 텍스트 사용하기 1
+# 예제: 에디트 텍스트 사용하기 1
 
-### **📌 test.java**
+## 📌 MainActivity.java
+
 ```java
-나중에 추가 예정
+package com.example.edittext_test;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    // 에디트텍스트 eText;
+    // 버튼 eButton;
+    // 텍스트뷰 eTextView;
+
+    private EditText eText;
+    private Button eButton;
+    private TextView eTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // 여기 부분 선언한 3개의 변수랑 XML ID
+        eText = (EditText) findViewById(R.id.edittext);
+        eButton = (Button) findViewById(R.id.button);
+        eTextView = (TextView) findViewById(R.id.textView);
+    }
+
+    public void onClicked(View view) {
+        String str = eText.getText().toString();
+        eTextView.setText(str);
+    }
+}
 ```
+
+---
+
+## 📌 activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="199dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="여기에 텍스트를 입력하시오." />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClicked"
+            android:text="텍스트보이기" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="텍스트보이기" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
 
