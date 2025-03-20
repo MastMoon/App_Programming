@@ -427,7 +427,6 @@ public class MainActivity extends AppCompatActivity {
 <p align="left"">
 <img src="https://github.com/user-attachments/assets/93c389b3-a284-4572-adae-41cea22d5236"width="300">
 <img src="https://github.com/user-attachments/assets/50d5822b-0812-434d-baae-0b0a62241368"width="310">
-<img src="https://github.com/user-attachments/assets/25342a8f-64f2-4203-aae2-b5709b3afa22"width="350">
 </p>
 
 ### 📌 MainActivity.java
