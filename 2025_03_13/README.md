@@ -425,10 +425,9 @@ public class MainActivity extends AppCompatActivity {
 ## 예제: 이미지 속성 변경
 
 <p align="left"">
-<img src="https://github.com/user-attachments/assets/93c389b3-a284-4572-adae-41cea22d5236"width="200">
-</p>
+<img src="https://github.com/user-attachments/assets/93c389b3-a284-4572-adae-41cea22d5236"width="300">
 <p align="left">
-<img src="https://github.com/user-attachments/assets/50d5822b-0812-434d-baae-0b0a62241368"width="200">
+<img src="https://github.com/user-attachments/assets/50d5822b-0812-434d-baae-0b0a62241368"width="300">
 </p>
 <p align="left">
 <img src="https://github.com/user-attachments/assets/25342a8f-64f2-4203-aae2-b5709b3afa22"width="400">
