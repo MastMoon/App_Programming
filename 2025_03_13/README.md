@@ -236,8 +236,6 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
----
-
 ### 📌 activity_main.xml
 
 ```xml
@@ -347,8 +345,6 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-
----
 
 ### 📌 activity_main.xml
 
