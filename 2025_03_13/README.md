@@ -9,8 +9,8 @@
 - **3/13(목)** : 3. 기본 위젯(1)
 
 ## ✅ 3주차
-- **3/18(화)** : 3. 기본 위젯(2) **과제1: 에디트 텍스트 사용하기 2**
-- **3/20(목)** : 수업 예정
+- **3/18(화)** : 3. 기본 위젯(1), **과제1: 에디트 텍스트 사용하기 2**
+- **3/20(목)** : 4. 기본 위젯(2)
 
 ## ✅ 4주차
 - **3/25(화)** : 수업 예정
@@ -88,7 +88,7 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 
 ---
 
-# **2주차** 🔹 **기본 위젯**
+# **2주차** 🔹 **기본 위젯(1)**
 
 ## 📏 UI 단위 개념 정리
 
@@ -121,6 +121,9 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 ---
 
 ## 예제: 난수 표시 앱
+<p align="left">
+<img src="https://github.com/user-attachments/assets/4d761c5a-af2a-4bcf-b1ef-fd70465a93ac" width="300">
+</p>
 
 ### **📌 MainActivity.java**
 ```java
@@ -179,10 +182,401 @@ public class MainActivity extends AppCompatActivity {
 </LinearLayout>
 ```
 
+---
+
+# **3주차** 🔹 **기본 위젯(1)(2), 과제1**
+
 ## 예제: 에디트 텍스트 사용하기 1
 
-### **📌 test.java**
+<p align="left">
+<img src="https://github.com/user-attachments/assets/7e91269c-9393-439b-886e-35e951711b95" width="300">
+</p>
+
+### 📌 MainActivity.java
+
 ```java
-나중에 추가 예정
+package com.example.edittext_test;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    // 에디트텍스트 eText;
+    // 버튼 eButton;
+    // 텍스트뷰 eTextView;
+
+    private EditText eText;
+    private Button eButton;
+    private TextView eTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // 여기 부분 선언한 3개의 변수랑 XML ID
+        eText = (EditText) findViewById(R.id.edittext);
+        eButton = (Button) findViewById(R.id.button);
+        eTextView = (TextView) findViewById(R.id.textView);
+    }
+
+    public void onClicked(View view) {
+        String str = eText.getText().toString();
+        eTextView.setText(str);
+    }
+}
 ```
 
+### 📌 activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="199dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="여기에 텍스트를 입력하시오." />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClicked"
+            android:text="텍스트보이기" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="텍스트보이기" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+---
+
+## 과제1: 에디트 텍스트 사용하기 2
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93" width="300">
+</p>
+
+### 📌 MainActivity.java
+
+```java
+package com.example.edittext_ipp;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    // 아이디 etextID
+    // 비밀번호 etextPW
+    // 전화번호 etextPH
+    // 버튼 eButton
+    // 텍스트뷰 eTextView
+
+    private EditText etextID;
+    private EditText etextPW;
+    private EditText etextPH;
+    private Button eButton;
+    private TextView eTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // 여기 부분 선언한 5개의 변수랑 XML ID
+        etextID = (EditText) findViewById(R.id.xml_editext);
+        etextPW = (EditText) findViewById(R.id.xml_edittextPassword);
+        etextPH = (EditText) findViewById(R.id.xml_edittextPhone);
+        eButton = (Button) findViewById(R.id.xml_button);
+        eTextView = (TextView) findViewById(R.id.xml_textView);
+    }
+
+    public void onClicked(View view) {
+        String strID = etextID.getText().toString();
+        String strPW = etextPW.getText().toString();
+        String strPH = etextPH.getText().toString();
+
+        eTextView.setText("아이디: " + strID + "\n" +
+                "패스워드: " + strPW + "\n" +
+                "전화 번호: " + strPH);
+    }
+}
+```
+
+### 📌 activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="331dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <EditText
+            android:id="@+id/xml_editext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="아이디를 입력하세요." />
+
+        <EditText
+            android:id="@+id/xml_edittextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="비밀번호를 입력하세요."
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/xml_edittextPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="전화번호를 입력하세요."
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/xml_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClicked"
+            android:text="회원가입" />
+
+        <TextView
+            android:id="@+id/xml_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="텍스트보이기" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+---
+
+## 예제: 이미지 속성 변경
+
+<p align="left"">
+<img src="https://github.com/user-attachments/assets/93c389b3-a284-4572-adae-41cea22d5236" width="300">
+<img src="https://github.com/user-attachments/assets/50d5822b-0812-434d-baae-0b0a62241368" width="310">
+</p>
+
+### 📌 MainActivity.java
+
+```java
+package com.example.image_app;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    private ImageView imageView; // XML_ID : imageView3
+    private int scaleTyeIndex = 0;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        imageView = findViewById(R.id.imageView3);
+
+    }
+
+    public void changeScaleType(View view) {
+        ImageView.ScaleType[] scaleTypes = {
+                ImageView.ScaleType.CENTER,
+                ImageView.ScaleType.CENTER_CROP,
+                ImageView.ScaleType.CENTER_INSIDE,
+                ImageView.ScaleType.FIT_CENTER,
+                ImageView.ScaleType.FIT_XY
+        };
+
+        imageView.setScaleType(scaleTypes[scaleTyeIndex]);
+        scaleTyeIndex = (scaleTyeIndex + 1) % scaleTypes.length;
+
+    }
+
+    public void changeRotation(View view) {
+        imageView.setRotation(imageView.getRotation()+45);
+    }
+
+    public void changeAlpha(View view) {
+
+        float alpha = imageView.getAlpha();
+
+
+        // alpha = (alpha == 1.0f) ? 0.5f : 1.0f;
+
+        if (alpha == 1.0f){
+            alpha = 0.5f;
+        }
+        else alpha = 1.0f;
+
+
+        imageView.setAlpha(alpha);
+
+    }
+}
+```
+
+### 📌 activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/android" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="229dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scale Type변경"
+            android:onClick = "changeScaleType"/>
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="회전 변경"
+            android:onClick = "changeRotation"/>
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Alpha변경"
+            android:onClick = "changeAlpha"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+---
+
+# **4주차** 🔹 **수업예정**
+
+수업예정
+
+---
