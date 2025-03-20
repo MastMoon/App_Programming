@@ -123,7 +123,7 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 ## 예제: 난수 표시 앱
 <p align="left">
 <img src="https://github.com/user-attachments/assets/4d761c5a-af2a-4bcf-b1ef-fd70465a93ac"
-width="200">
+width="300">
 </p>
 
 ### **📌 MainActivity.java**
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
 <p align="left">
 <img src="https://github.com/user-attachments/assets/7e91269c-9393-439b-886e-35e951711b95"
-width="200">
+width="300">
 </p>
 
 ### 📌 MainActivity.java
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
 
 <p align="left">
 <img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93"
-width="200">
+width="300">
 </p>
 
 ### 📌 MainActivity.java
@@ -425,8 +425,15 @@ public class MainActivity extends AppCompatActivity {
 ## 예제: 이미지 속성 변경
 
 <p align="left">
-<img src="https://github.com/user-attachments/assets/25342a8f-64f2-4203-aae2-b5709b3afa22"
-width="400">
+<img src="https://github.com/user-attachments/assets/25342a8f-64f2-4203-aae2-b5709b3afa22"width="400">
+</p>
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/93c389b3-a284-4572-adae-41cea22d5236"width="400">
+</p>
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/50d5822b-0812-434d-baae-0b0a62241368"width="400">
 </p>
 
 ### 📌 MainActivity.java
