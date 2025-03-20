@@ -121,6 +121,10 @@ Android 앱은 다음과 같은 **구성 요소**로 이루어집니다.
 ---
 
 ## 예제: 난수 표시 앱
+<p align="left">
+<img src="https://github.com/user-attachments/assets/4d761c5a-af2a-4bcf-b1ef-fd70465a93ac"
+width="200">
+</p>
 
 ### **📌 MainActivity.java**
 ```java
