@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
 
 <p align="left">
 <img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93"
-width="800">
+width="200">
 </p>
 
 ### 📌 MainActivity.java
@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
 
 <p align="left">
 <img src="https://github.com/user-attachments/assets/25342a8f-64f2-4203-aae2-b5709b3afa22"
-width="800">
+width="400">
 </p>
 
 ### 📌 MainActivity.java
