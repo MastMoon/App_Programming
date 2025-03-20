@@ -185,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
 
 ## 예제: 에디트 텍스트 사용하기 1
 
+<p align="left">
+<img src="https://github.com/user-attachments/assets/f5e1f37e-794e-4f2f-8711-2f04532c88a3"
+width="200">
+</p>
+
 ### 📌 MainActivity.java
 
 ```java
