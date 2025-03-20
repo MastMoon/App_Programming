@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-# **3주차** 🔹 **기본 위젯(2)**
+# **3주차** 🔹 **기본 위젯(1)(2), 과제1**
 
 ## 예제: 에디트 텍스트 사용하기 1
 
