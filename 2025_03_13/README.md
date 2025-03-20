@@ -179,9 +179,9 @@ public class MainActivity extends AppCompatActivity {
 </LinearLayout>
 ```
 
-# 예제: 에디트 텍스트 사용하기 1
+## 예제: 에디트 텍스트 사용하기 1
 
-## 📌 MainActivity.java
+### 📌 MainActivity.java
 
 ```java
 package com.example.edittext_test;
@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-## 📌 activity_main.xml
+### 📌 activity_main.xml
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -278,9 +278,9 @@ public class MainActivity extends AppCompatActivity {
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-# 과제1: 에디트 텍스트 사용하기 2
+## 과제1: 에디트 텍스트 사용하기 2
 
-## 📌 MainActivity.java
+### 📌 MainActivity.java
 
 ```java
 package com.example.edittext_ipp;
@@ -344,7 +344,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-## 📌 activity_main.xml
+### 📌 activity_main.xml
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
