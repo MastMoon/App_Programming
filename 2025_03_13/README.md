@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-## 이미지 속성 변
+## 예제: 이미지 속성 변경
 
 ### 📌 MainActivity.java
 
