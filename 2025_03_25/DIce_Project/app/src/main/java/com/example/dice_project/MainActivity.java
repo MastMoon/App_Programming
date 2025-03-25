@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView1, imageView2;
 
 
-    int[] diceImages = {
+    int diceImages[] = {
             R.drawable.dice_1,
             R.drawable.dice_2,
             R.drawable.dice_3,
