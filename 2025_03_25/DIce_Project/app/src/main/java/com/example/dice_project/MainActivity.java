@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView1, imageView2;
 
-
     int diceImages[] = {
             R.drawable.dice_1,
             R.drawable.dice_2,
@@ -53,5 +52,53 @@ public class MainActivity extends AppCompatActivity {
 
         imageView1.setImageResource(diceImages[dice1]);
         imageView2.setImageResource(diceImages[dice2]);
+
+        /*
+
+        switch (dice1) {
+            case 1:
+                imageView1.setImageResource(R.drawable.dice_1);
+                break;
+            case 2:
+                imageView1.setImageResource(R.drawable.dice_2);
+                break;
+            case 3:
+                imageView1.setImageResource(R.drawable.dice_3);
+                break;
+            case 4:
+                imageView1.setImageResource(R.drawable.dice_4);
+                break;
+            case 5:
+                imageView1.setImageResource(R.drawable.dice_5);
+                break;
+            case 6:
+                imageView1.setImageResource(R.drawable.dice_6);
+                break;
+
+        }
+
+        switch (dice2) {
+            case 1:
+                imageView2.setImageResource(R.drawable.dice_1);
+                break;
+            case 2:
+                imageView2.setImageResource(R.drawable.dice_2);
+                break;
+            case 3:
+                imageView2.setImageResource(R.drawable.dice_3);
+                break;
+            case 4:
+                imageView2.setImageResource(R.drawable.dice_4);
+                break;
+            case 5:
+                imageView2.setImageResource(R.drawable.dice_5);
+                break;
+            case 6:
+                imageView2.setImageResource(R.drawable.dice_6);
+                break;
+        }
+
+         */
+
     }
 }
