@@ -602,6 +602,8 @@ public class MainActivity extends AppCompatActivity {
 
 ## 과제 1: 버튼을 누르면 두 개의 주사위가 각각 1부터 6까지의 숫자 중에서 랜덤하게 굴러가는 기능을 구현하세요.  
 
+[주사위_이미지.zip](https://github.com/user-attachments/files/19463458/_.zip)
+
 <p align="left">
 <img src="https://github.com/user-attachments/assets/63bc0433-fd5e-4d04-a5c9-0960c438c45e" width="300">
 </p>
