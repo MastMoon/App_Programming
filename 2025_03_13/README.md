@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-# **3주차** 🔹 **기본 위젯(1)(2), 과제1**
+# **3주차** 🔹 **기본 위젯(1)(2), 과제(1)**
 
 ## 예제: 에디트 텍스트 사용하기 1
 
@@ -598,8 +598,42 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-# **4주차** 🔹 **수업예정**
+# **4주차** 🔹 **과제(1)(2)**
 
-수업예정
+## 과제1: 주사위 굴리기
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93" width="300">
+</p>
+
+### 📌 MainActivity.java
+
+```java
+
+```
+
+### 📌 activity_main.xml
+
+```xml
+
+```
+
+## 과제2: 계산기
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93" width="300">
+</p>
+
+### 📌 MainActivity.java
+
+```java
+
+```
+
+### 📌 activity_main.xml
+
+```xml
+
+```
 
 ---
