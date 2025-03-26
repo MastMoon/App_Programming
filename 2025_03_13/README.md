@@ -627,7 +627,177 @@ public class MainActivity extends AppCompatActivity {
 ### 📌 MainActivity.java
 
 ```java
+package com.example.calcul_project;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView TextView1, TextView2; // 각각 버튼 입력값은 TextView1에 결과는 TextView2에 보이게 하기.
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        TextView1 = findViewById(R.id.XML_textView1);
+        TextView2 = findViewById(R.id.XML_textView2);
+
+
+    }
+
+    private void appendText(View view) {
+        Button button = (Button) view;
+        String current = TextView1.getText().toString();
+        String newText = current + button.getText().toString();
+        TextView1.setText(newText);
+    }
+
+
+    public void onClick7(View view) {
+        appendText(view);
+    }
+
+    public void onClick8(View view) {
+        appendText(view);
+    }
+
+    public void onClick9(View view) {
+        appendText(view);
+    }
+
+    public void onClickD(View view) {
+        appendText(view);
+    }
+
+    public void onClick4(View view) {
+        appendText(view);
+    }
+
+    public void onClick5(View view) {
+        appendText(view);
+    }
+
+    public void onClick6(View view) {
+        appendText(view);
+    }
+
+    public void onClickM(View view) {
+        appendText(view);
+    }
+
+    public void onClick1(View view) {
+        appendText(view);
+    }
+
+    public void onClick2(View view) {
+        appendText(view);
+    }
+
+    public void onClick3(View view) {
+        appendText(view);
+    }
+
+    public void onClickS(View view) {
+        appendText(view);
+    }
+
+    public void onClick0(View view) {
+        appendText(view);
+    }
+
+    public void onClickAC(View view) {
+        String currentText = TextView1.getText().toString();
+        if (currentText.length() > 0 ){
+            //마지막 글자 제거
+            currentText = currentText.substring(0, currentText.length() - 1);
+            TextView1.setText(currentText);
+        }
+    }
+
+    public void onClickE(View view) {
+        // 사용자가 입력한 수식(예: "3+5")을 TextView1에서 문자열로 가져옴
+        String input = TextView1.getText().toString();
+
+        // 만약 수식에 '+'가 포함되어 있다면
+        if (input.contains("+")) {
+            // '+' 기호를 기준으로 앞/뒤로 나눠서 문자열 배열에 저장
+            // 예: "3+5" → ["3", "5"]
+            String parts[] = input.split("\\+");
+
+            // 나눈 결과가 정확히 두 부분이면 (숫자 + 숫자 형식일 때만 계산)
+            if (parts.length == 2) {
+                // 각 문자열을 double로 변환한 후 더함
+                double result = Double.parseDouble(parts[0]) + Double.parseDouble(parts[1]);
+
+                // 결과를 TextView2에 표시
+                TextView2.setText("= " + result);
+            }
+
+            // '-' 기호가 포함되어 있으면 (뺄셈 처리)
+        } else if (input.contains("-")) {
+            // '-' 기준으로 앞/뒤 숫자를 나눔
+            String parts[] = input.split("-");
+
+            // 나눈 결과가 2개일 때만 계산
+            if (parts.length == 2) {
+                double result = Double.parseDouble(parts[0]) - Double.parseDouble(parts[1]);
+                TextView2.setText("= " + result);
+            }
+
+            // '*' 기호가 포함되어 있으면 (곱셈 처리)
+        } else if (input.contains("*")) {
+            // '*' 기호는 정규식에서 특수문자라서 \\* 로 써야 함
+            String parts[] = input.split("\\*");
+
+            if (parts.length == 2) {
+                double result = Double.parseDouble(parts[0]) * Double.parseDouble(parts[1]);
+                TextView2.setText("= " + result);
+            }
+
+            // '/' 기호가 포함되어 있으면 (나눗셈 처리)
+        } else if (input.contains("/")) {
+            // '/' 기호 기준으로 숫자 나누기
+            String parts[] = input.split("/");
+
+            if (parts.length == 2) {
+                double denominator = Double.parseDouble(parts[1]);  // 나누는 수 (분모)
+
+                // 분모가 0이면 계산 불가능하므로 오류 메시지 출력
+                if (denominator == 0) {
+                    TextView2.setText("0으로 나눌 수 없습니다");
+                } else {
+                    double result = Double.parseDouble(parts[0]) / denominator;
+                    TextView2.setText("= " + result);
+                }
+            }
+
+            // 위의 어떤 연산자도 포함되지 않으면 수식 오류로 처리
+        } else {
+            TextView2.setText("수식 오류");
+        }
+    }
+
+
+    public void onClickA(View view) {
+        appendText(view);
+    }
+}
 ```
 
 ### 📌 activity_main.xml
