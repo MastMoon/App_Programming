@@ -777,7 +777,7 @@ public class MainActivity extends AppCompatActivity {
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-## 과제 2: 사칙연산이 가능한 계산기 앱을 구현하세요. 
+## 과제 2: 사칙연산이 가능한 계산기 앱을 구현하세요.  예: `3 + 3 = 6`
 
 <p align="left">
 <img src="https://github.com/user-attachments/assets/dda5bd7b-11e4-4089-a4a9-4411f0cfac0f" width="300">
