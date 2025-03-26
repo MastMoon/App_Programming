@@ -598,12 +598,12 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-# **4주차** 🔹 **과제(1)(2)**
+# **4주차** 🔹 **과제(1)(2), 곧 배울 예정**
 
 ## 과제1: 주사위 굴리기
 
 <p align="left">
-<img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93" width="300">
+<img src="https://github.com/user-attachments/assets/63bc0433-fd5e-4d04-a5c9-0960c438c45e" width="300">
 </p>
 
 ### 📌 MainActivity.java
@@ -621,7 +621,7 @@ public class MainActivity extends AppCompatActivity {
 ## 과제2: 계산기
 
 <p align="left">
-<img src="https://github.com/user-attachments/assets/0778ca85-da42-4b3b-8448-8122bf44ea93" width="300">
+<img src="https://github.com/user-attachments/assets/dda5bd7b-11e4-4089-a4a9-4411f0cfac0f" width="300">
 </p>
 
 ### 📌 MainActivity.java
