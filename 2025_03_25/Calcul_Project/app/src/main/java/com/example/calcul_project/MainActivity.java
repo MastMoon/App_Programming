@@ -102,67 +102,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickE(View view) {
-        // 사용자가 입력한 수식(예: "3+5")을 TextView1에서 문자열로 가져옴
         String input = TextView1.getText().toString();
+        String operator = "";
 
-        // 만약 수식에 '+'가 포함되어 있다면
+        // 입력된 수식에서 연산자 탐색 (우선 +, -, *, / 순)
         if (input.contains("+")) {
-            // '+' 기호를 기준으로 앞/뒤로 나눠서 문자열 배열에 저장
-            // 예: "3+5" → ["3", "5"]
-            String parts[] = input.split("\\+");
-
-            // 나눈 결과가 정확히 두 부분이면 (숫자 + 숫자 형식일 때만 계산)
-            if (parts.length == 2) {
-                // 각 문자열을 double로 변환한 후 더함
-                double result = Double.parseDouble(parts[0]) + Double.parseDouble(parts[1]);
-
-                // 결과를 TextView2에 표시
-                TextView2.setText("= " + result);
-            }
-
-            // '-' 기호가 포함되어 있으면 (뺄셈 처리)
+            operator = "+";
         } else if (input.contains("-")) {
-            // '-' 기준으로 앞/뒤 숫자를 나눔
-            String parts[] = input.split("-");
-
-            // 나눈 결과가 2개일 때만 계산
-            if (parts.length == 2) {
-                double result = Double.parseDouble(parts[0]) - Double.parseDouble(parts[1]);
-                TextView2.setText("= " + result);
-            }
-
-            // '*' 기호가 포함되어 있으면 (곱셈 처리)
+            operator = "-";
         } else if (input.contains("*")) {
-            // '*' 기호는 정규식에서 특수문자라서 \\* 로 써야 함
-            String parts[] = input.split("\\*");
-
-            if (parts.length == 2) {
-                double result = Double.parseDouble(parts[0]) * Double.parseDouble(parts[1]);
-                TextView2.setText("= " + result);
-            }
-
-            // '/' 기호가 포함되어 있으면 (나눗셈 처리)
+            operator = "*";
         } else if (input.contains("/")) {
-            // '/' 기호 기준으로 숫자 나누기
-            String parts[] = input.split("/");
+            operator = "/";
+        }
 
+        if (!operator.isEmpty()) {
+            // 연산자를 기준으로 두 피연산자 분리
+            String[] parts = input.split("\\" + operator);
             if (parts.length == 2) {
-                double denominator = Double.parseDouble(parts[1]);  // 나누는 수 (분모)
+                try {
+                    double num1 = Double.parseDouble(parts[0]);
+                    double num2 = Double.parseDouble(parts[1]);
+                    double result = 0;
 
-                // 분모가 0이면 계산 불가능하므로 오류 메시지 출력
-                if (denominator == 0) {
-                    TextView2.setText("0으로 나눌 수 없습니다");
-                } else {
-                    double result = Double.parseDouble(parts[0]) / denominator;
+                    switch(operator) {
+                        case "+":
+                            result = num1 + num2;
+                            break;
+                        case "-":
+                            result = num1 - num2;
+                            break;
+                        case "*":
+                            result = num1 * num2;
+                            break;
+                        case "/":
+                            if (num2 == 0) {
+                                TextView2.setText("0으로 나눌 수 없습니다");
+                                return;
+                            }
+                            result = num1 / num2;
+                            break;
+                    }
                     TextView2.setText("= " + result);
+                } catch (NumberFormatException e) {
+                    TextView2.setText("수식 오류");
                 }
+            } else {
+                TextView2.setText("수식 오류");
             }
-
-            // 위의 어떤 연산자도 포함되지 않으면 수식 오류로 처리
         } else {
             TextView2.setText("수식 오류");
         }
     }
+
 
 
     public void onClickA(View view) {
