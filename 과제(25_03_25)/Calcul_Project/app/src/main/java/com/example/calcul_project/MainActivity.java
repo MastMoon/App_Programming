@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!operator.isEmpty()) {
             // 연산자를 기준으로 두 피연산자 분리
-            String[] parts = input.split("\\" + operator);
+            String parts[] = input.split("\\" + operator);
             if (parts.length == 2) {
                 try {
                     double num1 = Double.parseDouble(parts[0]);
