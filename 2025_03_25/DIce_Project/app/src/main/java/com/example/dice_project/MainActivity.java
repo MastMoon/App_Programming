@@ -1,6 +1,7 @@
 package com.example.dice_project;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,7 +16,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView1, imageView2;
-
+    private Random rand;
+    private String tag = "MyTag";
     int diceImages[] = {
             R.drawable.dice_1,
             R.drawable.dice_2,
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        rand = new Random();
+
         imageView1 = findViewById(R.id.imageView1);
         imageView2 = findViewById(R.id.imageView2);
 
@@ -46,59 +50,66 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Roll_Dice(View view) {
-        Random rand = new Random();
-        int dice1 = rand.nextInt(6);
-        int dice2 = rand.nextInt(6);
 
+        //1. 랜덤숫자 생성하기
+        int dice1 = rand.nextInt(6); // 0~5까지의 랜덤숫자를 생성
+        int dice2 = rand.nextInt(6); // 0~5까지의 랜덤숫자를 생성
+
+        Log.d(tag, "주사위숫자1: "+ dice1); //Tag, String
+        Log.d(tag, "주사위숫자2: "+ dice2); //Tag, String
+
+
+
+        //2. 이미지 뷰 출력하기
         imageView1.setImageResource(diceImages[dice1]);
         imageView2.setImageResource(diceImages[dice2]);
 
         /*
 
         switch (dice1) {
-            case 1:
+            case 0:
                 imageView1.setImageResource(R.drawable.dice_1);
                 break;
-            case 2:
+            case 1:
                 imageView1.setImageResource(R.drawable.dice_2);
                 break;
-            case 3:
+            case 2:
                 imageView1.setImageResource(R.drawable.dice_3);
                 break;
-            case 4:
+            case 3:
                 imageView1.setImageResource(R.drawable.dice_4);
                 break;
-            case 5:
+            case 4:
                 imageView1.setImageResource(R.drawable.dice_5);
                 break;
-            case 6:
+            case 5:
                 imageView1.setImageResource(R.drawable.dice_6);
                 break;
 
         }
 
         switch (dice2) {
-            case 1:
+            case 0:
                 imageView2.setImageResource(R.drawable.dice_1);
                 break;
-            case 2:
+            case 1:
                 imageView2.setImageResource(R.drawable.dice_2);
                 break;
-            case 3:
+            case 2:
                 imageView2.setImageResource(R.drawable.dice_3);
                 break;
-            case 4:
+            case 3:
                 imageView2.setImageResource(R.drawable.dice_4);
                 break;
-            case 5:
+            case 4:
                 imageView2.setImageResource(R.drawable.dice_5);
                 break;
-            case 6:
+            case 5:
                 imageView2.setImageResource(R.drawable.dice_6);
                 break;
         }
 
-         */
+        */
 
     }
 }
