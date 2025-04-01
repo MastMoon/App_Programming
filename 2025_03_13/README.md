@@ -1185,4 +1185,6 @@ public class MainActivity extends AppCompatActivity {
 
 # **5주차** 🔹 **레이아웃 (1)(2)**
 
+## 예제: 공백
+
 ---
