@@ -1188,6 +1188,6 @@ public class MainActivity extends AppCompatActivity {
 ## 예제: 선형레이아웃(가중치)
 
 <p align="left">
-<img src="https://github.com/user-attachments/assets/70d07170-0898-44ec-b403-de2b7a311e88" width="300">
+<img src="https://github.com/user-attachments/assets/70d07170-0898-44ec-b403-de2b7a311e88" width="900">
 </p>
 ---
