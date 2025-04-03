@@ -1203,4 +1203,10 @@ public class MainActivity extends AppCompatActivity {
 <img src="https://github.com/user-attachments/assets/3e73f1be-d6c2-4070-81e1-f591014279c0" width="600">
 </p>
 
+## 예제: 상대적 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/f6d96b0f-b97c-4d93-8ed1-4355030d2a90" width="600">
+</p>
+
 ---
