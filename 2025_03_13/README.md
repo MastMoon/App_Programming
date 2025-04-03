@@ -1185,12 +1185,22 @@ public class MainActivity extends AppCompatActivity {
 
 # **5주차** 🔹 **레이아웃 (1)**
 
-## 예제: 선형레이아웃(가중치)
+## 예제: 선형 레이아웃(가중치)
 
 <p align="left">
 <img src="https://github.com/user-attachments/assets/ff83f836-3052-4b06-a348-258712c21c26" width="600">
 </p>
+
+## 예제: 중첩 선형 레이아웃
+
 <p align="left">
 <img src="https://github.com/user-attachments/assets/be0eda0b-9ff6-4ca9-a149-4c0c1aa11cea" width="600">
 </p>
+
+## 예제: 테이블 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/3e73f1be-d6c2-4070-81e1-f591014279c0" width="600">
+</p>
+
 ---
