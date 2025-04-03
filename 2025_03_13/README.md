@@ -1185,6 +1185,100 @@ public class MainActivity extends AppCompatActivity {
 
 # **5주차** 🔹 **레이아웃 (1)**
 
-## 예제: 공백
+## 예제: 선형 레이아웃(가중치)
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/ff83f836-3052-4b06-a348-258712c21c26" width="600">
+</p>
+
+## 예제: 중첩 선형 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/be0eda0b-9ff6-4ca9-a149-4c0c1aa11cea" width="600">
+</p>
+
+## 예제: 테이블 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/3e73f1be-d6c2-4070-81e1-f591014279c0" width="600">
+</p>
+
+## 예제: 상대적 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/f6d96b0f-b97c-4d93-8ed1-4355030d2a90" width="600">
+</p>
+
+## 예제: 그리드 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/5ed0ceea-fdaf-41eb-ac86-6bf522c184d7" width="300">
+</p>
+
+### 📌 activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:columnCount="2">
+
+    <TextView
+        android:id="@+id/view1"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:background="#FF0087"
+        android:text="view1" />
+
+        <TextView
+            android:id="@+id/view2"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#01FF00"
+            android:text="view2" />
+
+        <TextView
+            android:id="@+id/view3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#2196F3"
+            android:text="view3" />
+
+        <TextView
+            android:id="@+id/view4"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#f11f00"
+            android:text="view4" />
+
+        <TextView
+            android:id="@+id/view5"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#615100"
+            android:text="view5" />
+
+        <TextView
+            android:id="@+id/view6"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#f15100"
+            android:text="view6" />
+
+
+
+    </GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
 
 ---
