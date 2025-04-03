@@ -1185,6 +1185,9 @@ public class MainActivity extends AppCompatActivity {
 
 # **5주차** 🔹 **레이아웃 (1)**
 
-## 예제: 공백
+## 예제: 선형레이아웃(가중치)
 
+<p align="left">
+<img src="https://github.com/user-attachments/assets/70d07170-0898-44ec-b403-de2b7a311e88" width="300">
+</p>
 ---
