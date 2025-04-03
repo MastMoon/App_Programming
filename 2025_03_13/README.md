@@ -1209,4 +1209,66 @@ public class MainActivity extends AppCompatActivity {
 <img src="https://github.com/user-attachments/assets/f6d96b0f-b97c-4d93-8ed1-4355030d2a90" width="600">
 </p>
 
+## 예제: 그리드 레이아웃
+
+<p align="left">
+<img src="https://github.com/user-attachments/assets/5ed0ceea-fdaf-41eb-ac86-6bf522c184d7" width="300">
+</p>
+
+### 📌 activity_main.xml
+
+```xml
+<GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:columnCount="2">
+
+    <TextView
+        android:id="@+id/view1"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:background="#FF0087"
+        android:text="view1" />
+
+        <TextView
+            android:id="@+id/view2"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#01FF00"
+            android:text="view2" />
+
+        <TextView
+            android:id="@+id/view3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#2196F3"
+            android:text="view3" />
+
+        <TextView
+            android:id="@+id/view4"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#f11f00"
+            android:text="view4" />
+
+        <TextView
+            android:id="@+id/view5"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#615100"
+            android:text="view5" />
+
+        <TextView
+            android:id="@+id/view6"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:background="#f15100"
+            android:text="view6" />
+
+
+
+    </GridLayout>
+```
+
 ---
