@@ -1326,6 +1326,8 @@ public class MainActivity extends AppCompatActivity {
   <img src="https://github.com/user-attachments/assets/867218ee-8656-4b2d-ae09-6319628dc35b" width="150">
 </p>
 
+> **참고:** 버튼(파랑, 주황, 초록)을 누르면 해당 이미지처럼 색깔이 바뀝니다.
+
 ## android:background와 android:backgroundTint의 차이
 
 - **background:** 뷰(View)의 배경으로 사용할 drawable 리소스나 색상을 직접 지정하며, backgroundTint보다 강하게 적용됩니다.
