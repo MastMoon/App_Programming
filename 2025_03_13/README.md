@@ -1313,10 +1313,6 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-아래는 요청하신 내용을 GitHub의 random.md 파일 형식에 맞게 예쁘게 정리한 최종 결과입니다. 코드 블록은 그대로 유지했습니다.
-
----
-
 # **6주차** 🔹 **레이아웃 (2)**
 
 ## 예제: 프레임 레이아웃
@@ -1326,7 +1322,7 @@ public class MainActivity extends AppCompatActivity {
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/6c403202-e27d-46ef-a2d0-d67d33fa7718" width="100">
-  <img src="(https://github.com/user-attachments/assets/fe811445-ec25-4f94-b4c2-5c4168c9c2fe" width="100">
+  <img src="https://github.com/user-attachments/assets/fe811445-ec25-4f94-b4c2-5c4168c9c2fe" width="100">
   <img src="https://github.com/user-attachments/assets/867218ee-8656-4b2d-ae09-6319628dc35b" width="100">
 </p>
 
