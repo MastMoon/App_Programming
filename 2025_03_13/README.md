@@ -1321,9 +1321,9 @@ public class MainActivity extends AppCompatActivity {
 만약 자식 뷰가 여러 개이면 이전에 추가된 자식 위에 **새로운 자식이 중첩되어 그려집니다.**
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/6c403202-e27d-46ef-a2d0-d67d33fa7718" width="100">
-  <img src="https://github.com/user-attachments/assets/fe811445-ec25-4f94-b4c2-5c4168c9c2fe" width="100">
-  <img src="https://github.com/user-attachments/assets/867218ee-8656-4b2d-ae09-6319628dc35b" width="100">
+  <img src="https://github.com/user-attachments/assets/6c403202-e27d-46ef-a2d0-d67d33fa7718" width="150">
+  <img src="https://github.com/user-attachments/assets/fe811445-ec25-4f94-b4c2-5c4168c9c2fe" width="150">
+  <img src="https://github.com/user-attachments/assets/867218ee-8656-4b2d-ae09-6319628dc35b" width="150">
 </p>
 
 ## android:background와 android:backgroundTint의 차이
