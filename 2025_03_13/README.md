@@ -1318,7 +1318,7 @@ public class MainActivity extends AppCompatActivity {
 ## 예제: 프레임 레이아웃
 
 프레임 레이아웃 안에서 자식 뷰들은 등장하는 순서대로 화면에 표시됩니다.  
-만약 자식 뷰가 여러 개이면 이전에 추가된 자식 위에 **새로운 자식이 중첩되어 그려집니다.**
+만약 자식 뷰가 여러 개이면 이전에 추가된 자식 위에 <mark> **새로운 자식이 중첩되어 그려집니다.** </mark>
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/6c403202-e27d-46ef-a2d0-d67d33fa7718" width="150">
