@@ -1496,7 +1496,6 @@ public class MainActivity extends AppCompatActivity {
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
----
 
 ## 예제: 제약 레이아웃
 
