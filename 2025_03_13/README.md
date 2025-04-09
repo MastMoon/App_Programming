@@ -1333,8 +1333,6 @@ public class MainActivity extends AppCompatActivity {
 - **background:** 뷰(View)의 배경으로 사용할 drawable 리소스나 색상을 직접 지정하며, backgroundTint보다 강하게 적용됩니다.
 - **backgroundTint:** 기존 배경(Drawable)에 색상을 필터처럼 덧씌우는 개념이며, Material Components나 AppCompat을 사용할 경우에 더 안전하게 작동합니다.
 
----
-
 ### 📌 MainActivity.java
 
 ```java
