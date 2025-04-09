@@ -1313,8 +1313,193 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
+아래는 요청하신 내용을 GitHub의 random.md 파일 형식에 맞게 예쁘게 정리한 최종 결과입니다. 코드 블록은 그대로 유지했습니다.
+
+---
+
 # **6주차** 🔹 **레이아웃 (2)**
 
+## 예제: 프레임 레이아웃
+
+프레임 레이아웃 안에서 자식 뷰들은 등장하는 순서대로 화면에 표시됩니다.  
+만약 자식 뷰가 여러 개이면 이전에 추가된 자식 위에 **새로운 자식이 중첩되어 그려집니다.**
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/6c403202-e27d-46ef-a2d0-d67d33fa7718" width="100">
+  <img src="(https://github.com/user-attachments/assets/fe811445-ec25-4f94-b4c2-5c4168c9c2fe" width="100">
+  <img src="https://github.com/user-attachments/assets/867218ee-8656-4b2d-ae09-6319628dc35b" width="100">
+</p>
+
+## android:background와 android:backgroundTint의 차이
+
+- **background:** 뷰(View)의 배경으로 사용할 drawable 리소스나 색상을 직접 지정하며, backgroundTint보다 강하게 적용됩니다.
+- **backgroundTint:** 기존 배경(Drawable)에 색상을 필터처럼 덧씌우는 개념이며, Material Components나 AppCompat을 사용할 경우에 더 안전하게 작동합니다.
+
+---
+
+### 📌 MainActivity.java
+
+```java
+package com.example.layout_test;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView tv1, tv2, tv3;
+    String msg = "MyTag";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        tv1 = (TextView) findViewById(R.id.textView1);
+        tv2 = (TextView) findViewById(R.id.textView2);
+        tv3 = (TextView) findViewById(R.id.textView3);
+
+
+    }
+
+    public void onClick1(View view) {
+        tv1.setVisibility(View.VISIBLE);
+        tv2.setVisibility(View.INVISIBLE);
+        tv3.setVisibility(View.INVISIBLE);
+        Log.d(msg, "파랑버튼");
+    }
+
+    public void onClick2(View view) {
+        tv1.setVisibility(View.INVISIBLE);
+        tv2.setVisibility(View.VISIBLE);
+        tv3.setVisibility(View.INVISIBLE);
+        Log.d(msg, "주황버튼");
+
+    }
+
+    public void onClick3(View view) {
+        tv1.setVisibility(View.INVISIBLE);
+        tv2.setVisibility(View.INVISIBLE);
+        tv3.setVisibility(View.VISIBLE);
+        Log.d(msg, "초록버튼");
+    }
+
+}
+```
+
+### 📌 activity_main.xml
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="407dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#041EE0"
+                android:onClick="onClick1"
+                android:text="파랑" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#E96804"
+                android:onClick="onClick2"
+                android:text="주황" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#13BD01"
+                android:onClick="onClick3"
+                android:text="초록" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FF0000"
+            android:backgroundTint="#FFF100">
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0020FF" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF6600" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#00FF2E" />
+        </FrameLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
 
 
 ---
