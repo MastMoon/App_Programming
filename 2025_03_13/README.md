@@ -1848,5 +1848,13 @@ public class CalculatorActivity extends AppCompatActivity {
 
 ```
 
+---
+
+# **7주차** 🔹 **테스트**
+
+## 예제: 테스트
+
+테스트
+
 
 ---
