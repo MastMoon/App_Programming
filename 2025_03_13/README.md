@@ -1504,10 +1504,10 @@ public class MainActivity extends AppCompatActivity {
 
 제약(Constraint)이란 두 위젯 사이의 연결이나 정렬을 의미합니다.  
 즉, 하나의 위젯을 다른 위젯에 연결하거나 정렬하는 것을 말합니다.  
-제약 레이아웃에서는 최소한 하나의 수평 및 하나의 수직 제약 조건을 정의하여 위젯을 배치합니다.
+제약 레이아웃에서는 **최소한 하나의 수평 및 하나의 수직 제약 조건을 반드시 정의하여** 위젯을 배치합니다.
 
 <p align="left">
-  <img src="https://github.com/user-attachments/assets/001903e5-96d3-4407-a1c2-98dc509ee77f" width="500">
+  <img src="https://github.com/user-attachments/assets/001903e5-96d3-4407-a1c2-98dc509ee77f" width="450">
 </p>
 
 ---
@@ -1521,13 +1521,145 @@ public class MainActivity extends AppCompatActivity {
 ### 📌 MainActivity.java
 
 ```java
-// Java 코드가 여기에 위치합니다.
+package com.example.loginapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText editTextId, editTextPassword;
+    private Button buttonLogin, buttonSignup;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);  // 위에서 만든 activity_main.xml과 연결
+
+        editTextId = findViewById(R.id.editTextId);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonSignup = findViewById(R.id.buttonSignup);
+
+        // 로그인 버튼 클릭 시
+        buttonLogin.setOnClickListener(view -> {
+            String userId = editTextId.getText().toString().trim();
+            String userPassword = editTextPassword.getText().toString().trim();
+
+            if (!userId.isEmpty() && !userPassword.isEmpty()) {
+                // 실제론 서버 검증/DB 조회 등이 필요
+                Toast.makeText(MainActivity.this,
+                               "로그인 성공: " + userId,
+                               Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this,
+                               "아이디/패스워드를 입력하세요.",
+                               Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 회원가입 버튼 클릭 시
+        buttonSignup.setOnClickListener(view -> {
+            Toast.makeText(MainActivity.this,
+                           "회원가입 화면으로 이동합니다.",
+                           Toast.LENGTH_SHORT).show();
+            // TODO: 회원가입 Activity 이동 구현
+        });
+    }
+}
+
 ```
 
 ### 📌 activity_main.xml
 
 ```xml
-<!-- XML 코드가 여기에 위치합니다. -->
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!-- 회사 로고 -->
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_company_logo"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <!-- 회사 이름 -->
+    <TextView
+        android:id="@+id/textViewCompanyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Company name"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- 아이디 입력 -->
+    <EditText
+        android:id="@+id/editTextId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="아이디"
+        app:layout_constraintTop_toBottomOf="@id/textViewCompanyName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp" />
+
+    <!-- 패스워드 입력 -->
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="패스워드"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextId"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- 로그인 버튼 -->
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="로그인"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="24dp" />
+
+    <!-- 회원가입 버튼 -->
+    <Button
+        android:id="@+id/buttonSignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="64dp"
+        android:layout_marginTop="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 ```
 
 ---
@@ -1541,14 +1673,174 @@ public class MainActivity extends AppCompatActivity {
 ### 📌 MainActivity.java
 
 ```java
-// Java 코드가 여기에 위치합니다.
+package com.example.calculatorapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class CalculatorActivity extends AppCompatActivity {
+
+    private EditText editTextNumber1, editTextNumber2;
+    private Button buttonAdd, buttonSubtract, buttonMultiply, buttonDivide;
+    private TextView textViewResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_calculator);
+
+        editTextNumber1 = findViewById(R.id.editTextNumber1);
+        editTextNumber2 = findViewById(R.id.editTextNumber2);
+        buttonAdd = findViewById(R.id.buttonAdd);
+        buttonSubtract = findViewById(R.id.buttonSubtract);
+        buttonMultiply = findViewById(R.id.buttonMultiply);
+        buttonDivide = findViewById(R.id.buttonDivide);
+        textViewResult = findViewById(R.id.textViewResult);
+
+        buttonAdd.setOnClickListener(v -> performOperation("+"));
+        buttonSubtract.setOnClickListener(v -> performOperation("-"));
+        buttonMultiply.setOnClickListener(v -> performOperation("*"));
+        buttonDivide.setOnClickListener(v -> performOperation("/"));
+    }
+
+    private void performOperation(String operator) {
+        String sNum1 = editTextNumber1.getText().toString().trim();
+        String sNum2 = editTextNumber2.getText().toString().trim();
+
+        if (sNum1.isEmpty() || sNum2.isEmpty()) {
+            Toast.makeText(this, "두 숫자를 모두 입력하세요.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double num1 = Double.parseDouble(sNum1);
+        double num2 = Double.parseDouble(sNum2);
+        double result = 0;
+
+        switch (operator) {
+            case "+":
+                result = num1 + num2;
+                break;
+            case "-":
+                result = num1 - num2;
+                break;
+            case "*":
+                result = num1 * num2;
+                break;
+            case "/":
+                if (num2 == 0) {
+                    Toast.makeText(this, "0으로 나눌 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                result = num1 / num2;
+                break;
+        }
+
+        textViewResult.setText(String.valueOf(result));
+    }
+}
+
 ```
 
 ### 📌 activity_main.xml
 
 ```xml
-<!-- XML 코드가 여기에 위치합니다. -->
-```
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CalculatorActivity"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextNumber1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Number 1"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <EditText
+        android:id="@+id/editTextNumber2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Number 2"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumber1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <!-- + 버튼 -->
+    <Button
+        android:id="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumber2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- - 버튼 -->
+    <Button
+        android:id="@+id/buttonSubtract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumber2"
+        app:layout_constraintStart_toEndOf="@id/buttonAdd"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- * 버튼 -->
+    <Button
+        android:id="@+id/buttonMultiply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumber2"
+        app:layout_constraintStart_toEndOf="@id/buttonSubtract"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- / 버튼 -->
+    <Button
+        android:id="@+id/buttonDivide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        app:layout_constraintTop_toBottomOf="@id/editTextNumber2"
+        app:layout_constraintStart_toEndOf="@id/buttonMultiply"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- 결과 출력 텍스트뷰 -->
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/buttonAdd"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 ```
 
 
