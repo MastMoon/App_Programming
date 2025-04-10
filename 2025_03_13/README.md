@@ -1668,7 +1668,6 @@ public class MainActivity extends AppCompatActivity {
 
 ```
 
----
 
 ## 예제: 계산기 앱 만들기
 
