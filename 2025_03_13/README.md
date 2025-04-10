@@ -1504,9 +1504,9 @@ public class MainActivity extends AppCompatActivity {
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
----
 
-# 예제: 제약 레이아웃
+
+## 예제: 제약 레이아웃
 
 제약(Constraint)이란 두 위젯 사이의 연결이나 정렬을 의미합니다.  
 즉, 하나의 위젯을 다른 위젯에 연결하거나 정렬하는 것을 말합니다.  
@@ -1518,7 +1518,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-# 예제: 로그인 화면 만들기
+## 예제: 로그인 화면 만들기
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/f846a304-6c4c-4930-b6ce-15ce15799596" width="400">
@@ -1670,7 +1670,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---
 
-# 예제: 계산기 앱 만들기
+## 예제: 계산기 앱 만들기
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/bf955371-4e15-495e-a096-f854b8224242" width="400">
