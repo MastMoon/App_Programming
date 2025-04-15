@@ -1596,78 +1596,111 @@ public class MainActivity extends AppCompatActivity {
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- 회사 로고 -->
-    <ImageView
-        android:id="@+id/imageViewLogo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_company_logo"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:hapticFeedbackEnabled="false"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
-
-    <!-- 회사 이름 -->
-    <TextView
-        android:id="@+id/textViewCompanyName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Company name"
-        android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/imageViewLogo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- 아이디 입력 -->
-    <EditText
-        android:id="@+id/editTextId"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="아이디"
-        app:layout_constraintTop_toBottomOf="@id/textViewCompanyName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="24dp" />
 
-    <!-- 패스워드 입력 -->
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="패스워드"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/editTextId"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="16dp" />
+        <ImageView
+            android:id="@+id/iv_company_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:layout_marginBottom="27dp"
+            android:src="@drawable/company" />
 
-    <!-- 로그인 버튼 -->
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="로그인"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="24dp" />
 
-    <!-- 회원가입 버튼 -->
-    <Button
-        android:id="@+id/buttonSignup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="회원가입"
-        app:layout_constraintTop_toBottomOf="@id/editTextPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="64dp"
-        android:layout_marginTop="24dp" />
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/id_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="4dp"
+                android:text="아이디"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="16dp"
+                android:hint="아이디를 입력하세요." />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/password_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="4dp"
+                android:text="패스워드"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:hint="패스워드를 입력하세요."
+                android:inputType="textPassword" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:onClick="onClick_Login"
+                android:text="로그인" />
+
+            <Button
+                android:id="@+id/signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick_Signup"
+                android:text="회원 가입" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="369dp"
+            android:layout_height="202dp"
+            android:background="#FFECECEC"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="입력된 내용이 여기에 표시됩니다."
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
