@@ -1527,53 +1527,58 @@ public class MainActivity extends AppCompatActivity {
 ### 📌 MainActivity.java
 
 ```java
-package com.example.loginapp;
+package com.example.login_screen;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText editTextId, editTextPassword;
-    private Button buttonLogin, buttonSignup;
+    private EditText idEditText;
+    private EditText pwEditText;
+    private TextView resultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  // 위에서 만든 activity_main.xml과 연결
-
-        editTextId = findViewById(R.id.editTextId);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        buttonLogin = findViewById(R.id.buttonLogin);
-        buttonSignup = findViewById(R.id.buttonSignup);
-
-        // 로그인 버튼 클릭 시
-        buttonLogin.setOnClickListener(view -> {
-            String userId = editTextId.getText().toString().trim();
-            String userPassword = editTextPassword.getText().toString().trim();
-
-            if (!userId.isEmpty() && !userPassword.isEmpty()) {
-                // 실제론 서버 검증/DB 조회 등이 필요
-                Toast.makeText(MainActivity.this,
-                               "로그인 성공: " + userId,
-                               Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this,
-                               "아이디/패스워드를 입력하세요.",
-                               Toast.LENGTH_SHORT).show();
-            }
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
         });
 
-        // 회원가입 버튼 클릭 시
-        buttonSignup.setOnClickListener(view -> {
-            Toast.makeText(MainActivity.this,
-                           "회원가입 화면으로 이동합니다.",
-                           Toast.LENGTH_SHORT).show();
-            // TODO: 회원가입 Activity 이동 구현
-        });
+        idEditText = (EditText) findViewById(R.id.id);
+        pwEditText = (EditText) findViewById(R.id.password);
+        resultTextView = (TextView) findViewById(R.id.result);
+
+    }
+
+    // 회원가입 버튼 클릭 시 호출
+    public void onClick_Signup(View view) {
+        displayCredentials();
+    }
+
+    // 로그인 버튼 클릭 시 호출
+    public void onClick_Login(View view) {
+        displayCredentials();
+    }
+
+    // 입력된 아이디와 비밀번호를 읽어 하단 TextView에 출력
+    private void displayCredentials() {
+        String idStr = idEditText.getText().toString();
+        String pwStr = pwEditText.getText().toString();
+        String displayText = "아이디: " + idStr + "\n비밀번호: " + pwStr;
+        resultTextView.setText(displayText);
     }
 }
 
