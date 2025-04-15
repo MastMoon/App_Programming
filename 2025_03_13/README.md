@@ -1678,73 +1678,85 @@ public class MainActivity extends AppCompatActivity {
 ### 📌 MainActivity.java
 
 ```java
-package com.example.calculatorapp;
+package com.example.calcu_lator;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
-public class CalculatorActivity extends AppCompatActivity {
-
-    private EditText editTextNumber1, editTextNumber2;
-    private Button buttonAdd, buttonSubtract, buttonMultiply, buttonDivide;
-    private TextView textViewResult;
+public class MainActivity extends AppCompatActivity {
+    private EditText number1, number2;
+    private TextView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calculator);
-
-        editTextNumber1 = findViewById(R.id.editTextNumber1);
-        editTextNumber2 = findViewById(R.id.editTextNumber2);
-        buttonAdd = findViewById(R.id.buttonAdd);
-        buttonSubtract = findViewById(R.id.buttonSubtract);
-        buttonMultiply = findViewById(R.id.buttonMultiply);
-        buttonDivide = findViewById(R.id.buttonDivide);
-        textViewResult = findViewById(R.id.textViewResult);
-
-        buttonAdd.setOnClickListener(v -> performOperation("+"));
-        buttonSubtract.setOnClickListener(v -> performOperation("-"));
-        buttonMultiply.setOnClickListener(v -> performOperation("*"));
-        buttonDivide.setOnClickListener(v -> performOperation("/"));
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        number1 = findViewById(R.id.number1);
+        number2 = findViewById(R.id.number2);
+        result   = findViewById(R.id.result);
     }
 
-    private void performOperation(String operator) {
-        String sNum1 = editTextNumber1.getText().toString().trim();
-        String sNum2 = editTextNumber2.getText().toString().trim();
+    public void onClickAdd(View view) {
+        calculate('+');
+    }
 
-        if (sNum1.isEmpty() || sNum2.isEmpty()) {
-            Toast.makeText(this, "두 숫자를 모두 입력하세요.", Toast.LENGTH_SHORT).show();
+    public void onClickSubtract(View view) {
+        calculate('-');
+    }
+
+    public void onClickMultiply(View view) {
+        calculate('*');
+    }
+
+    public void onClickDivide(View view) {
+        calculate('/');
+    }
+
+    private void calculate(char operator) {
+        String num1Str = number1.getText().toString().trim();
+        String num2Str = number2.getText().toString().trim();
+        if (num1Str.isEmpty() || num2Str.isEmpty()) {
+            result.setText("숫자를 모두 입력하세요.");
             return;
         }
-
-        double num1 = Double.parseDouble(sNum1);
-        double num2 = Double.parseDouble(sNum2);
-        double result = 0;
-
+        double n1, n2;
+        try {
+            n1 = Double.parseDouble(num1Str);
+            n2 = Double.parseDouble(num2Str);
+        } catch (NumberFormatException e) {
+            result.setText("유효한 숫자를 입력하세요.");
+            return;
+        }
+        double res;
         switch (operator) {
-            case "+":
-                result = num1 + num2;
-                break;
-            case "-":
-                result = num1 - num2;
-                break;
-            case "*":
-                result = num1 * num2;
-                break;
-            case "/":
-                if (num2 == 0) {
-                    Toast.makeText(this, "0으로 나눌 수 없습니다.", Toast.LENGTH_SHORT).show();
+            case '+': res = n1 + n2; break;
+            case '-': res = n1 - n2; break;
+            case '*': res = n1 * n2; break;
+            case '/':
+                if (n2 == 0) {
+                    result.setText("0으로 나눌 수 없습니다.");
                     return;
                 }
-                result = num1 / num2;
+                res = n1 / n2;
                 break;
+            default:
+                result.setText("알 수 없는 연산자: " + operator);
+                return;
         }
-
-        textViewResult.setText(String.valueOf(result));
+        result.setText("결과: " + res);
     }
 }
 
