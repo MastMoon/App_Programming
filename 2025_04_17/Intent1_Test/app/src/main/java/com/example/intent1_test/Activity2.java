@@ -29,7 +29,7 @@ public class Activity2 extends AppCompatActivity {
 
             @Override
             public void onClick(View v){
-
+                finish();
             }
         });
     }
