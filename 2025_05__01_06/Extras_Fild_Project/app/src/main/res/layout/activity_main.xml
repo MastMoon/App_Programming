@@ -129,6 +129,15 @@
             android:textColor="#E61818"
             android:textSize="19dp" />
 
+        <Button
+            android:id="@+id/btn_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClicked_main"
+            android:text="메인화면으로 이동"
+            android:translationY="120dp"
+            android:visibility="invisible" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

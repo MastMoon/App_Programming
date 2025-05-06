@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText j_emailEditText, j_passwordEditText;
     private TextView j_status;
     private Button j_login;
+    private Button j_btn_main;
 
     ActivityResultLauncher<Intent> launcher;
 
@@ -64,10 +65,26 @@ public class MainActivity extends AppCompatActivity {
         // launcher
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result-> {
-                    if(result.getResultCode() == Activity.RESULT_OK){
-                        Intent data = result.getData();
-                        j_status.setText(data.getStringExtra("status"));
+                if(result.getResultCode() == Activity.RESULT_OK){
+                     Intent data = result.getData();
+                     j_status.setText(data.getStringExtra("status"));
                 }
+
+                // 상태 텍스트가 "로그인 성공"인지 확인
+                j_btn_main = findViewById(R.id.btn_main);
+                if("로그인 성공".equals(j_status.getText().toString())){
+                    j_btn_main.setVisibility(View.VISIBLE); // 버튼 보이게 설정
+                }
+                else
+                {
+                    j_btn_main.setVisibility(View.GONE); // 그 외는 숨김 (선택사항)
+                }
+
         });
+    }
+
+    public void onClicked_main(View view) {
+        Intent intent = new Intent(MainActivity.this, IntentActivity.class);
+        startActivity(intent);
     }
 }
