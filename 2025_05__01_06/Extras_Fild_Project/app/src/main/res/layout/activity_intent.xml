@@ -41,6 +41,12 @@
             android:layout_height="wrap_content"
             android:onClick="onClicked_intent"
             android:text="연락처보기" />
+
+        <Button
+            android:id="@+id/btn_TimeDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="날짜 / 시간" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

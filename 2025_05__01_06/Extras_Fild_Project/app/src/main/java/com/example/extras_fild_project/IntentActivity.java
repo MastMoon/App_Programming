@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +18,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class IntentActivity extends AppCompatActivity {
+
+    private Button timedate_join;
 
     private static final int SPLASH_TIMEOUT = 2000;
     LinearLayout layout;
@@ -33,6 +36,7 @@ public class IntentActivity extends AppCompatActivity {
         });
 
         layout = (LinearLayout)findViewById(R.id.layout);
+        timedate_join = findViewById(R.id.btn_TimeDate);
 
     }
 
