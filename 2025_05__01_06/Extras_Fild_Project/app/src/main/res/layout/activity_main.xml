@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:onClick="onClicked_main"
             android:text="메인화면으로 이동"
-            android:translationY="40dp"
+            android:translationY="60dp"
             android:visibility="invisible" />
 
     </LinearLayout>
