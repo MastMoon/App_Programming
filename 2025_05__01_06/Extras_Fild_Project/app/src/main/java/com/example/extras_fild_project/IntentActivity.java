@@ -1,11 +1,14 @@
 package com.example.extras_fild_project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +17,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class IntentActivity extends AppCompatActivity {
+
+    private static final int SPLASH_TIMEOUT = 2000;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,9 @@ public class IntentActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        layout = (LinearLayout)findViewById(R.id.layout);
+
     }
 
     public void onClicked_intent(View view){
@@ -46,12 +55,29 @@ public class IntentActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-    public boolean onCreateOptionMenu(Menu menu){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+        if(id==R.id.blue){
+            layout.setBackgroundColor(Color.BLUE);
+            return true;
+        }
+        else if(id==R.id.green){
+            layout.setBackgroundColor(Color.GREEN);
+            return true;
+        }
+        else if(id==R.id.red){
+            layout.setBackgroundColor(Color.RED);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

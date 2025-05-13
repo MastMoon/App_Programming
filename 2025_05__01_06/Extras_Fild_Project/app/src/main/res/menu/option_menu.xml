@@ -16,4 +16,5 @@
         android:id="@+id/red"
         android:title="레드"
         app:showAsAction="always"/>
+
 </menu>
