@@ -3,6 +3,8 @@ package com.example.extras_fild_project;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -23,9 +25,6 @@ public class IntentActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-
     }
 
     public void onClicked_intent(View view){
@@ -47,4 +46,12 @@ public class IntentActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    public boolean onCreateOptionMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
 }
