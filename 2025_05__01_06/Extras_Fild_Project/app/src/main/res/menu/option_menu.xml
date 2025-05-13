@@ -5,16 +5,16 @@
     <item
         android:id="@+id/blue"
         android:title="블루"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/green"
         android:title="그린"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/red"
         android:title="레드"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
 </menu>
