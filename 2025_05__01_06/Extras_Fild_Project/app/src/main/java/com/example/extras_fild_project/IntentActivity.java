@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
@@ -19,10 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class IntentActivity extends AppCompatActivity {
 
-    private Button timedate_join;
-
-    private static final int SPLASH_TIMEOUT = 2000;
     LinearLayout layout;
+
+    String msg = "Tag: ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,31 +35,37 @@ public class IntentActivity extends AppCompatActivity {
         });
 
         layout = findViewById(R.id.layout);
-        timedate_join = findViewById(R.id.btn_TimeDate);
 
     }
 
     public void onClicked_intent(View view){
         Intent intent = null;
-        int id = view.getId();
 
-        if (id == R.id.btn_TimeDate){
+        if (view.getId() == R.id.btn_TimeDate){
             // 날짜/시간 액티비티로 이동
-            intent = new Intent(this, TimeDateActivity.class);
+            intent = new Intent(IntentActivity.this, TimeDateActivity.class);
 
-        } else if (id == R.id.btn_web){
+        }
+        if (view.getId() == R.id.btn_web){
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
 
-        } else if (id == R.id.btn_call){
+        }
+        if (view.getId() == R.id.btn_call){
             intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:010-1234-5678"));
 
-        } else if (id == R.id.btn_map){
+        }
+        if (view.getId() == R.id.btn_map){
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:37.30,127.2"));
 
-        } else if (id == R.id.btn_num){
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people"));
         }
+        if (view.getId() == R.id.btn_num){
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people"));
 
+        }
+        if (view.getId() == R.id.btn_memo){
+            intent = new Intent(IntentActivity.this, MemoActivity.class);
+            Log.d(msg, "메모버튼");
+        }
         if (intent != null){
             startActivity(intent);
         }
