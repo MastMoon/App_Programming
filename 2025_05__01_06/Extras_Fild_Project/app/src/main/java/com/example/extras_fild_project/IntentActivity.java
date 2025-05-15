@@ -35,30 +35,37 @@ public class IntentActivity extends AppCompatActivity {
             return insets;
         });
 
-        layout = (LinearLayout)findViewById(R.id.layout);
+        layout = findViewById(R.id.layout);
         timedate_join = findViewById(R.id.btn_TimeDate);
 
     }
 
     public void onClicked_intent(View view){
         Intent intent = null;
-        if (view.getId() == R.id.btn_web){
+        int id = view.getId();
+
+        if (id == R.id.btn_TimeDate){
+            // 날짜/시간 액티비티로 이동
+            intent = new Intent(this, TimeDateActivity.class);
+
+        } else if (id == R.id.btn_web){
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
-        }
-        if (view.getId() == R.id.btn_call){
+
+        } else if (id == R.id.btn_call){
             intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:010-1234-5678"));
-        }
-        if (view.getId() == R.id.btn_map){
+
+        } else if (id == R.id.btn_map){
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:37.30,127.2"));
-        }
-        if (view.getId() == R.id.btn_num){
+
+        } else if (id == R.id.btn_num){
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people"));
         }
 
-        if(intent != null){
+        if (intent != null){
             startActivity(intent);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
