@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileDoctor">   <!-- ← 여기를 Material3 테마로 변경 -->
 
+
         <!-- Maps SDK for Android (앱 패키지+SHA-1 제한) -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"

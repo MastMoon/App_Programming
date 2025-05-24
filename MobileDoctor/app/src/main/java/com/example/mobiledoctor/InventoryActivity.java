@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * 활동(Activity) 클래스: 약국 재고 현황을 보여주고 검색 기능을 제공합니다.
  */
-public class InventoryActivity extends AppCompatActivity {
+public class InventoryActivity extends BaseActivity {
     private static final String TAG = "InventoryActivity";
 
     // Intent Extra 키
@@ -82,6 +81,9 @@ public class InventoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
+        // 돋보기 상태 적용
+        applyZoomState();  // BaseActivity에서 구현된 메소드 호출
+
         // 1) 인텐트로 전달된 장소 정보 받기
         displayPlaceInfo();
 
@@ -108,6 +110,9 @@ public class InventoryActivity extends AppCompatActivity {
         tvName.setText(name != null ? name : "");
         tvAddress.setText(address != null ? address : "");
         tvPhone.setText(phone != null ? phone : "");
+
+        // 돋보기 상태 적용 (텍스트 크기 변경)
+        applyZoomState(tvName, tvAddress, tvPhone);
     }
 
     /**
@@ -127,7 +132,8 @@ public class InventoryActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_inventory);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new InventoryAdapter(SAMPLE_DATA);
+        // Inside onCreate method in InventoryActivity
+        adapter = new InventoryAdapter(this, SAMPLE_DATA);
         recyclerView.setAdapter(adapter);
     }
 
@@ -183,5 +189,17 @@ public class InventoryActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_PLACE_ADDRESS, address);
         intent.putExtra(EXTRA_PLACE_PHONE, phone);
         context.startActivity(intent);
+    }
+
+    // 돋보기 상태를 화면의 텍스트 뷰에 적용하는 메소드
+    private void applyZoomState(TextView... textViews) {
+        // SharedPreferences에서 돋보기 상태 가져오기
+        boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
+        float zoomSize = isZoomEnabled ? 30f : 16f;
+
+        // 각 TextView의 크기를 돋보기 상태에 맞게 설정
+        for (TextView textView : textViews) {
+            textView.setTextSize(zoomSize);
+        }
     }
 }

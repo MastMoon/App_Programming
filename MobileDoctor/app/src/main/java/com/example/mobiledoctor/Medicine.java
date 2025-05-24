@@ -1,6 +1,7 @@
 package com.example.mobiledoctor;
 
 public class Medicine {
+
     private final String name, efficacy, usage, price;
 
     public Medicine(String name, String efficacy, String usage, String price) {

@@ -2,6 +2,8 @@ package com.example.mobiledoctor;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -18,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,7 +51,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class SymptomSearchActivity extends AppCompatActivity {
+public class SymptomSearchActivity extends BaseActivity {
 
     // UI
     private AutoCompleteTextView spCategory, spSub;
@@ -87,6 +88,9 @@ public class SymptomSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptom_search);
+
+        // 돋보기 상태 적용
+        applyZoomState();  // BaseActivity에서 구현된 메소드 호출
 
         // 1) UI 초기화
         spCategory      = findViewById(R.id.spinner_category);
@@ -149,7 +153,7 @@ public class SymptomSearchActivity extends AppCompatActivity {
             String catKey = spCategory.getText().toString();
             List<Medicine> meds = medicineData.getOrDefault(catKey, Collections.emptyList());
             tvMedicineCount.setText("계열별 약 검색 수: " + meds.size());
-            rvMedResults.setAdapter(new MedicineAdapter(meds));
+            rvMedResults.setAdapter(new MedicineAdapter(meds, this));  // Context 전달
         });
     }
 
@@ -188,10 +192,11 @@ public class SymptomSearchActivity extends AppCompatActivity {
                             runOnUiThread(() -> {
                                 if (type.equals("hospital")) {
                                     tvHospitalCount.setText("병원 수: " + items.size());
-                                    rvHospitals.setAdapter(new PlaceAdapter(items));
+                                    // Context를 명시적으로 SymptomSearchActivity.this로 전달
+                                    rvHospitals.setAdapter(new PlaceAdapter(items, SymptomSearchActivity.this));  // Context 전달
                                 } else {
                                     tvPharmacyCount.setText("약국 수: " + items.size());
-                                    rvPharmacies.setAdapter(new PlaceAdapter(items));
+                                    rvPharmacies.setAdapter(new PlaceAdapter(items, SymptomSearchActivity.this));  // Context 전달
                                 }
                             });
                         } catch (JSONException ex) {
@@ -387,63 +392,126 @@ public class SymptomSearchActivity extends AppCompatActivity {
         ));
     }
 
-    // — RecyclerView Adapters
-
     private static class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.VH> {
         private final List<PlaceItem> items;
-        PlaceAdapter(List<PlaceItem> items){ this.items=items; }
-        @NonNull @Override
-        public VH onCreateViewHolder(@NonNull ViewGroup p,int vt){
-            View v= LayoutInflater.from(p.getContext())
-                    .inflate(android.R.layout.simple_list_item_2,p,false);
+        private final SharedPreferences sharedPreferences;
+
+        // 생성자에서 SharedPreferences 초기화
+        PlaceAdapter(List<PlaceItem> items, Context context) {
+            this.items = items;
+            this.sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        }
+
+        @NonNull
+        @Override
+        public VH onCreateViewHolder(@NonNull ViewGroup p, int vt) {
+            View v = LayoutInflater.from(p.getContext()).inflate(android.R.layout.simple_list_item_2, p, false);
             return new VH(v);
         }
-        @Override public void onBindViewHolder(@NonNull VH vh,int pos){
-            PlaceItem it=items.get(pos);
+
+        @Override
+        public void onBindViewHolder(@NonNull VH vh, int pos) {
+            PlaceItem it = items.get(pos);
             vh.t1.setText(it.name);
-            float[] dist=new float[1];
+
+            // 거리 계산
+            float[] dist = new float[1];
             Location.distanceBetween(
-                    ((SymptomSearchActivity)vh.t1.getContext()).currentLocation.latitude,
-                    ((SymptomSearchActivity)vh.t1.getContext()).currentLocation.longitude,
-                    it.lat,it.lng,dist
+                    ((SymptomSearchActivity) vh.t1.getContext()).currentLocation.latitude,
+                    ((SymptomSearchActivity) vh.t1.getContext()).currentLocation.longitude,
+                    it.lat, it.lng, dist
             );
-            vh.t2.setText(Math.round(dist[0])+"m");
+            vh.t2.setText(Math.round(dist[0]) + "m");
+
+            // 돋보기 상태 적용
+            applyZoomState(vh);  // 돋보기 상태 적용
         }
-        @Override public int getItemCount(){return items.size();}
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
         static class VH extends RecyclerView.ViewHolder {
-            final TextView t1,t2;
-            VH(View v){ super(v);
-                t1=v.findViewById(android.R.id.text1);
-                t2=v.findViewById(android.R.id.text2);
+            final TextView t1, t2;
+
+            VH(View v) {
+                super(v);
+                t1 = v.findViewById(android.R.id.text1);
+                t2 = v.findViewById(android.R.id.text2);
             }
+        }
+
+        // 돋보기 상태 적용 (TextView 크기 변경)
+        private void applyZoomState(VH vh) {
+            // SharedPreferences에서 돋보기 상태 가져오기
+            boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
+            float zoomSize = isZoomEnabled ? 30f : 16f;
+
+            // 각 TextView의 크기를 돋보기 상태에 맞게 설정
+            vh.t1.setTextSize(zoomSize); // Place 이름
+            vh.t2.setTextSize(zoomSize); // 거리 텍스트
         }
     }
 
+
     private static class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.VH> {
         private final List<Medicine> meds;
-        MedicineAdapter(List<Medicine> meds){ this.meds=meds; }
-        @NonNull @Override
-        public VH onCreateViewHolder(@NonNull ViewGroup p,int vt){
-            View v= LayoutInflater.from(p.getContext())
-                    .inflate(R.layout.item_medicine,p,false);
+        private final SharedPreferences sharedPreferences;
+
+        // 생성자에서 SharedPreferences 초기화
+        MedicineAdapter(List<Medicine> meds, Context context) {
+            this.meds = meds;
+            this.sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        }
+
+        @NonNull
+        @Override
+        public VH onCreateViewHolder(@NonNull ViewGroup p, int vt) {
+            View v = LayoutInflater.from(p.getContext()).inflate(R.layout.item_medicine, p, false);
             return new VH(v);
         }
-        @Override public void onBindViewHolder(@NonNull VH vh,int pos){
-            Medicine m=meds.get(pos);
-            vh.name   .setText(m.getName());
-            vh.efficacy.setText("효능: "+m.getEfficacy());
-            vh.usage  .setText("복용법: "+m.getUsage());
-            vh.price  .setText("가격: "+m.getPrice());
+
+        @Override
+        public void onBindViewHolder(@NonNull VH vh, int pos) {
+            Medicine m = meds.get(pos);
+            vh.name.setText(m.getName());
+            vh.efficacy.setText("효능: " + m.getEfficacy());
+            vh.usage.setText("복용법: " + m.getUsage());
+            vh.price.setText("가격: " + m.getPrice());
+
+            // 돋보기 상태 적용
+            applyZoomState(vh);  // 돋보기 상태 적용
         }
-        @Override public int getItemCount(){return meds.size();}
+
+        @Override
+        public int getItemCount() {
+            return meds.size();
+        }
+
         static class VH extends RecyclerView.ViewHolder {
             final TextView name, efficacy, usage, price;
-            VH(View v){ super(v);
-                name   =v.findViewById(R.id.tvMedName);
-                efficacy=v.findViewById(R.id.tvMedEfficacy);
-                usage  =v.findViewById(R.id.tvMedUsage);
-                price  =v.findViewById(R.id.tvMedPrice);
+
+            VH(View v) {
+                super(v);
+                name = v.findViewById(R.id.tvMedName);
+                efficacy = v.findViewById(R.id.tvMedEfficacy);
+                usage = v.findViewById(R.id.tvMedUsage);
+                price = v.findViewById(R.id.tvMedPrice);
             }
+        }
+
+        // 돋보기 상태 적용 (TextView 크기 변경)
+        private void applyZoomState(VH vh) {
+            // SharedPreferences에서 돋보기 상태 가져오기
+            boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
+            float zoomSize = isZoomEnabled ? 30f : 16f;
+
+            // 각 TextView의 크기를 돋보기 상태에 맞게 설정
+            vh.name.setTextSize(zoomSize); // 약 이름
+            vh.efficacy.setTextSize(zoomSize); // 효능
+            vh.usage.setTextSize(zoomSize); // 복용법
+            vh.price.setTextSize(zoomSize); // 가격
         }
     }
 }

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -61,7 +60,7 @@ import okhttp3.Response;
  * Activity to display Google Map, show nearby hospitals and pharmacies,
  * and handle marker interactions with custom info windows.
  */
-public class MapActivity extends AppCompatActivity
+public class MapActivity extends BaseActivity
         implements OnMapReadyCallback,
         GoogleMap.OnMarkerClickListener,
         GoogleMap.InfoWindowAdapter,
@@ -90,6 +89,9 @@ public class MapActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        // 돋보기 상태 적용
+        applyZoomState();  // BaseActivity에서 구현된 메소드 호출
 
         initializeToolbar();
         loadPlacesApiKey();
@@ -454,7 +456,20 @@ public class MapActivity extends AppCompatActivity
         btnStock.setVisibility(isPharm ? View.VISIBLE : View.GONE);
         btnStock.setOnClickListener(x -> onInfoWindowClick(marker));
 
+        // Apply zoom state (font size)
+        float textSize = getTextSizeBasedOnZoomState();
+        t1.setTextSize(textSize);
+        t2.setTextSize(textSize);
+        tAddr.setTextSize(textSize);
+        tPhone.setTextSize(textSize);
+        tHours.setTextSize(textSize);
+
         return v;
+    }
+
+    private float getTextSizeBasedOnZoomState() {
+        boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
+        return isZoomEnabled ? 30f : 16f; // Zoomed-in size vs. default size
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(@DrawableRes int vectorResId,

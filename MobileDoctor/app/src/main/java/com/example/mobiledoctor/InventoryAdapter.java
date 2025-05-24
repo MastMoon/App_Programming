@@ -1,5 +1,7 @@
 package com.example.mobiledoctor;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,15 +35,20 @@ public class InventoryAdapter
     private final List<String> originalItems;
     private final List<String> filteredItems;
 
+    private final SharedPreferences sharedPreferences;
+
     // 실제 필터 로직을 담은 객체
     private final Filter inventoryFilter = new InventoryFilter();
 
     /**
-     * @param items 재고 항목 문자열 리스트
+     * @param context 앱의 Context
+     * @param items   재고 항목 문자열 리스트
      */
-    public InventoryAdapter(List<String> items) {
+
+    public InventoryAdapter(Context context, List<String> items) {
         this.originalItems = new ArrayList<>(items);
         this.filteredItems = new ArrayList<>(items);
+        this.sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
     }
 
     // 뷰 홀더 생성
@@ -65,6 +72,9 @@ public class InventoryAdapter
         holder.textView.setTextColor(
                 item.contains("품절") ? COLOR_SOLD_OUT : COLOR_DEFAULT
         );
+
+        // 돋보기 상태 적용
+        applyZoomState(holder);
     }
 
     @Override
@@ -120,5 +130,15 @@ public class InventoryAdapter
             filteredItems.addAll((List<String>) results.values);
             notifyDataSetChanged();
         }
+    }
+
+    // 돋보기 상태 적용 (TextView 크기 변경)
+    private void applyZoomState(ViewHolder holder) {
+        // SharedPreferences에서 돋보기 상태 가져오기
+        boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
+        float zoomSize = isZoomEnabled ? 30f : 16f;
+
+        // TextView 크기 조정
+        holder.textView.setTextSize(zoomSize);
     }
 }
