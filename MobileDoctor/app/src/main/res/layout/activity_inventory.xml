@@ -5,51 +5,60 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
-    android:padding="16dp">
+    android:background="?android:attr/colorBackground">
 
     <!-- 툴바 -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_inventory"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
         app:title="재고 목록"
-        app:titleTextColor="@android:color/black" />
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:elevation="4dp"/>
 
     <!-- 병원 이름, 주소, 전화번호 텍스트 표시 -->
     <TextView
         android:id="@+id/place_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="병원 이름"
-        android:textSize="18sp"
+        android:paddingLeft="15dp"
         android:paddingBottom="8dp"
-        android:textColor="@android:color/black" />
+        android:text="병원 이름"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/place_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="병원 주소"
-        android:textSize="16sp"
+        android:paddingLeft="15dp"
         android:paddingBottom="8dp"
-        android:textColor="@android:color/black" />
+        android:text="병원 주소"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp" />
 
+    <!-- RecyclerView: 재고 목록 표시 -->
     <TextView
         android:id="@+id/place_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="병원 전화번호"
-        android:textSize="16sp"
+        android:paddingLeft="15dp"
         android:paddingBottom="16dp"
-        android:textColor="@android:color/black" />
+        android:text="병원 전화번호"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp" />
 
-    <!-- RecyclerView: 재고 목록 표시 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_inventory"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:padding="8dp"
-        android:clipToPadding="false" />
+        android:background="?android:attr/selectableItemBackground"
+        android:scrollbars="vertical"/>
+
 </LinearLayout>

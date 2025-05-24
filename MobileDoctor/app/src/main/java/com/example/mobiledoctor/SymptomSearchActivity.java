@@ -2,20 +2,18 @@ package com.example.mobiledoctor;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -52,24 +52,25 @@ import okhttp3.Response;
 
 public class SymptomSearchActivity extends AppCompatActivity {
 
-    // ✔ 전역에 현재 위치 저장 변수 추가
+    // UI
+    private AutoCompleteTextView spCategory, spSub;
+    private TextView tvMedicineCount, tvHospitalCount, tvPharmacyCount;
+    private RecyclerView rvHospitals, rvPharmacies, rvMedResults;
+
+    // Location
     private LatLng currentLocation;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
+    private FusedLocationProviderClient fusedLocationClient;
+    private String placesApiKey;
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private static final int SEARCH_RADIUS = 1000; // 1km
+    private static final String TAG = "SymptomSearchActivity";
 
-    private Spinner spCategory, spSub;
-    private ListView lvResults, lvHospitals, lvPharmacies;
-    private TextView tvMedicineCount, tvHospitalCount, tvPharmacyCount;
-
+    // Data
     private Map<String, List<String>> categoryMap = new HashMap<>();
     private Map<String, List<Medicine>> medicineData = new HashMap<>();
-
-    private FusedLocationProviderClient fusedLocationClient;
-    private String placesApiKey; // Places API 키
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-    private static final int SEARCH_RADIUS = 1000; // 1km 반경
-    private static final String TAG = "SymptomSearchActivity";  // TAG 정의
 
     // 장소+좌표 보관용
     private static class PlaceItem {
@@ -77,8 +78,8 @@ public class SymptomSearchActivity extends AppCompatActivity {
         final double lat, lng;
         PlaceItem(String name, double lat, double lng) {
             this.name = name;
-            this.lat  = lat;
-            this.lng  = lng;
+            this.lat = lat;
+            this.lng = lng;
         }
     }
 
@@ -87,156 +88,220 @@ public class SymptomSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptom_search);
 
-
-        // UI 초기화
-        spCategory = findViewById(R.id.spinner_category);
-        spSub = findViewById(R.id.spinner_sub);
-        lvResults = findViewById(R.id.list_results);
+        // 1) UI 초기화
+        spCategory      = findViewById(R.id.spinner_category);
+        spSub           = findViewById(R.id.spinner_sub);
         tvMedicineCount = findViewById(R.id.medicine_count);
         tvHospitalCount = findViewById(R.id.nearby_hospitals_count);
         tvPharmacyCount = findViewById(R.id.nearby_pharmacies_count);
 
-        lvHospitals = findViewById(R.id.list_nearby_hospitals);  // 병원 리스트 뷰 초기화
-        lvPharmacies = findViewById(R.id.list_nearby_pharmacies); // 약국 리스트 뷰 초기화
+        rvHospitals   = findViewById(R.id.rv_nearby_hospitals);
+        rvPharmacies  = findViewById(R.id.rv_nearby_pharmacies);
+        rvMedResults  = findViewById(R.id.rv_med_results);
 
-        // 툴바 세팅
+        rvHospitals.setLayoutManager(new LinearLayoutManager(this));
+        rvPharmacies.setLayoutManager(new LinearLayoutManager(this));
+        rvMedResults.setLayoutManager(new LinearLayoutManager(this));
+
+        // 2) Toolbar 설정
         MaterialToolbar toolbar = findViewById(R.id.toolbar_symptom_search);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // 카테고리와 약 정보 초기화
+        // 3) 데이터 초기화
         initCategoryMap();
         initMedicineData();
 
-        // 3) 스피너에 어댑터 & 리스너 연결
-        setupMedicineSpinners();  // ← 이 줄을 꼭 추가하세요!
+        // 4) Spinner & Adapter 세팅
+        setupMedicineSpinners();
 
-        // 위치 권한 요청
+        // 5) 위치 권한 및 API 초기화
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        // Places API 키를 Manifest에서 가져오는 코드
-        placesApiKey = getString(R.string.PLACES_API_KEY); // 이를 values/strings.xml에 저장
-
-        requestLocationPermission();  // 위치 권한 요청 및 위치 정보 가져오기
+        placesApiKey        = getString(R.string.PLACES_API_KEY);
+        requestLocationPermission();
     }
 
-    // 메뉴 붙이기
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_symptom_search, menu);
-        return true;
+    // — Spinner 세팅
+    private void setupMedicineSpinners() {
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item,
+                new ArrayList<>(categoryMap.keySet())
+        );
+        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCategory.setAdapter(catAdapter);
+        spCategory.setThreshold(1);
+        spCategory.setOnClickListener(v -> spCategory.showDropDown());
+
+        spCategory.setOnItemClickListener((parent, view, pos, id) -> {
+            String key = catAdapter.getItem(pos);
+            List<String> subs = categoryMap.getOrDefault(key, Collections.emptyList());
+            ArrayAdapter<String> subAdapter = new ArrayAdapter<>(
+                    this, android.R.layout.simple_spinner_item, subs
+            );
+            subAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spSub.setAdapter(subAdapter);
+            spSub.setThreshold(1);
+            spSub.setOnClickListener(v -> spSub.showDropDown());
+            spSub.setText("", false);
+        });
+
+        spSub.setOnItemClickListener((parent, view, pos, id) -> {
+            String catKey = spCategory.getText().toString();
+            List<Medicine> meds = medicineData.getOrDefault(catKey, Collections.emptyList());
+            tvMedicineCount.setText("계열별 약 검색 수: " + meds.size());
+            rvMedResults.setAdapter(new MedicineAdapter(meds));
+        });
+    }
+
+    // — 주변 장소 검색
+    @SuppressLint("MissingPermission")
+    private void fetchNearbyPlaces(String type) {
+        if (currentLocation == null) return;
+        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+                + "?location=" + currentLocation.latitude + "," + currentLocation.longitude
+                + "&radius=" + SEARCH_RADIUS
+                + "&type=" + type
+                + "&key=" + placesApiKey;
+
+        new OkHttpClient().newCall(new Request.Builder().url(url).build())
+                .enqueue(new Callback() {
+                    @Override public void onFailure(Call call, IOException e) {
+                        Log.e(TAG, type + " 검색 실패", e);
+                    }
+                    @Override public void onResponse(Call call, Response resp) throws IOException {
+                        if (!resp.isSuccessful()) return;
+                        try {
+                            JSONObject root = new JSONObject(resp.body().string());
+                            JSONArray arr = root.optJSONArray("results");
+                            List<PlaceItem> items = new ArrayList<>();
+                            for (int i = 0; i < arr.length(); i++) {
+                                JSONObject o = arr.getJSONObject(i);
+                                String name = o.optString("name");
+                                double lat = o.getJSONObject("geometry")
+                                        .getJSONObject("location")
+                                        .optDouble("lat");
+                                double lng = o.getJSONObject("geometry")
+                                        .getJSONObject("location")
+                                        .optDouble("lng");
+                                items.add(new PlaceItem(name, lat, lng));
+                            }
+                            runOnUiThread(() -> {
+                                if (type.equals("hospital")) {
+                                    tvHospitalCount.setText("병원 수: " + items.size());
+                                    rvHospitals.setAdapter(new PlaceAdapter(items));
+                                } else {
+                                    tvPharmacyCount.setText("약국 수: " + items.size());
+                                    rvPharmacies.setAdapter(new PlaceAdapter(items));
+                                }
+                            });
+                        } catch (JSONException ex) {
+                            Log.e(TAG, "파싱 에러", ex);
+                        }
+                    }
+                });
+    }
+
+    // — 권한 요청 & 위치 업데이트
+    private void requestLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE
+            );
+        } else {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(loc -> {
+                        if (loc != null) {
+                            currentLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
+                            fetchNearbyPlaces("hospital");
+                            fetchNearbyPlaces("pharmacy");
+                        }
+                    });
+            startLocationUpdates();
+        }
     }
 
     @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
-        // (1) 요청 전에 명시적으로 퍼미션 체크
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // 권한이 없으면 바로 리턴
-            Log.w(TAG, "startLocationUpdates: 위치 권한 없음, 업데이트 중단");
-            return;
-        }
-
-        // (2) 위치 요청 파라미터 세팅
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(5000)        // 5초마다
-                .setFastestInterval(2000);// 최소 2초마다
+                .setInterval(5000)
+                .setFastestInterval(2000);
 
-        // (3) 콜백 정의
         locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult result) {
+            @Override public void onLocationResult(LocationResult result) {
                 if (result == null) return;
-                Location loc = result.getLastLocation();
-                currentLocation = new LatLng(loc.getLatitude(), loc.getLongitude());
+                currentLocation = new LatLng(
+                        result.getLastLocation().getLatitude(),
+                        result.getLastLocation().getLongitude()
+
+                );
                 Log.d(TAG, "🔄 위치 업데이트: "
                         + currentLocation.latitude + ", "
                         + currentLocation.longitude);
             }
         };
-
-        // (4) 업데이트 시작
         fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
+                locationRequest, locationCallback, Looper.getMainLooper()
         );
     }
 
-    // 뒤로가기·새로고침 처리
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        if (id == R.id.action_refresh) {
-            if (currentLocation != null) {
-                Log.d(TAG, "📌 새로고침: "
-                        + currentLocation.latitude + ", "
-                        + currentLocation.longitude);
-                fetchNearbyPlacesWithDistance(currentLocation, "hospital", lvHospitals, tvHospitalCount);
-                fetchNearbyPlacesWithDistance(currentLocation, "pharmacy", lvPharmacies, tvPharmacyCount);
-            } else {
-                Toast.makeText(this,
-                        "현재 위치를 가져오는 중…",
-                        Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    // 퍼미션 요청 콜백
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE
-                && grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            // 권한 방금 허용: 초기 한 번 + 업데이트
-            getCurrentLocation();
-            startLocationUpdates();
+    public void onRequestPermissionsResult(
+            int code, @NonNull String[] perms, @NonNull int[] res) {
+        super.onRequestPermissionsResult(code, perms, res);
+        if (code == LOCATION_PERMISSION_REQUEST_CODE
+                && res.length>0
+                && res[0]==PackageManager.PERMISSION_GRANTED) {
+            requestLocationPermission();
         } else {
             Toast.makeText(this, "위치 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_symptom_search, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==android.R.id.home) {
+            finish(); return true;
+        }
+        if (item.getItemId()==R.id.action_refresh && currentLocation!=null) {
+            fetchNearbyPlaces("hospital");
+            fetchNearbyPlaces("pharmacy");
+            Toast.makeText(this,
+                    "주변 정보가 갱신되었습니다.", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (locationCallback != null) {
+        if (locationCallback!=null) {
             fusedLocationClient.removeLocationUpdates(locationCallback);
         }
     }
 
-
-    /**
-     * Initialize category to sub-symptom mapping.
-     */
-    // 카테고리 → 증상 매핑
+    // — 데이터 초기화
     private void initCategoryMap() {
-        categoryMap = new HashMap<>();
-        categoryMap.put("두통 계열", Arrays.asList("두통", "편두통", "머리아픔", "두통약"));
-        categoryMap.put("피부 계열", Arrays.asList("알레르기", "피부염", "발진", "여드름", "가려움"));
-        categoryMap.put("소화 계열", Arrays.asList("소화불량", "속쓰림", "소화", "위염", "역류성 식도염"));
-        categoryMap.put("감기 계열", Arrays.asList("감기", "콧물", "목아픔", "기침", "인후염"));
-        categoryMap.put("염증 계열", Arrays.asList("염증", "통증", "근육통", "관절염"));
-        categoryMap.put("심혈관 계열", Arrays.asList("고혈압", "혈전", "심장병"));
-        categoryMap.put("호흡기 계열", Arrays.asList("천식", "기침", "호흡곤란", "폐렴"));
-        categoryMap.put("정신건강 계열", Arrays.asList("우울증", "불안", "불면증"));
-        categoryMap.put("당뇨 계열", Arrays.asList("당뇨", "혈당", "인슐린"));
-        categoryMap.put("기타",       Arrays.asList("기타"));
+        categoryMap.put("두통 계열", Arrays.asList("두통","편두통","머리아픔","두통약"));
+        categoryMap.put("피부 계열", Arrays.asList("알레르기","피부염","발진","여드름","가려움"));
+        categoryMap.put("소화 계열", Arrays.asList("소화불량","속쓰림","위염","식도염"));
+        categoryMap.put("감기 계열", Arrays.asList("감기","콧물","목아픔","기침","인후염"));
+        categoryMap.put("염증 계열", Arrays.asList("염증","통증","근육통","관절염"));
+        categoryMap.put("심혈관 계열", Arrays.asList("고혈압","혈전","심장병"));
+        categoryMap.put("호흡기 계열", Arrays.asList("천식","기침","호흡곤란","폐렴"));
+        categoryMap.put("정신건강 계열", Arrays.asList("우울증","불안","불면증"));
+        categoryMap.put("당뇨 계열", Arrays.asList("당뇨","혈당","인슐린"));
+        categoryMap.put("기타", Collections.singletonList("기타"));
     }
 
-    /**
-     * Initialize sub-symptom to medicine mapping.
-     */
     private void initMedicineData() {
         // 두통 계열 (4개)
         medicineData.put("두통 계열", Arrays.asList(
@@ -322,256 +387,63 @@ public class SymptomSearchActivity extends AppCompatActivity {
         ));
     }
 
+    // — RecyclerView Adapters
 
-
-    private void fetchNearbyPlaces(LatLng currentLocation) {
-        Log.d(TAG, "▶ fetchNearbyPlaces() 시작: " + currentLocation.latitude + ", " + currentLocation.longitude);
-        // 병원 검색 URL
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + currentLocation.latitude + "," + currentLocation.longitude +
-                "&radius=" + SEARCH_RADIUS + "&type=hospital&key=" + placesApiKey;
-
-        // 병원 요청
-        new OkHttpClient().newCall(new Request.Builder().url(url).build()).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "병원 검색 실패", e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    JSONObject json = null;
-                    try {
-                        json = new JSONObject(response.body().string());
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                    JSONArray results = json.optJSONArray("results");
-                    List<String> hospitals = new ArrayList<>();
-                    if (results != null) {
-                        for (int i = 0; i < results.length(); i++) {
-                            JSONObject place = results.optJSONObject(i);
-                            String hospitalName = place.optString("name", "이름 없음");
-                            hospitals.add(hospitalName);
-                        }
-                        Log.d(TAG, "✅ 병원 검색 결과 개수: " + hospitals.size());
-
-                        runOnUiThread(() -> {
-                            // 병원이 있을 경우 ListView에 데이터 세팅
-                            lvHospitals.setAdapter(new ArrayAdapter<>(SymptomSearchActivity.this, android.R.layout.simple_list_item_1, hospitals));
-                            tvHospitalCount.setText("병원 수: " + hospitals.size());
-
-                            // 병원 리스트가 비어있으면 메시지 보이기, 아니면 리스트 보이기
-                            if (hospitals.isEmpty()) {
-                                lvHospitals.setVisibility(View.GONE);
-                                findViewById(R.id.no_hospitals_message).setVisibility(View.VISIBLE);
-                            } else {
-                                lvHospitals.setVisibility(View.VISIBLE);
-                                findViewById(R.id.no_hospitals_message).setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                }
-            }
-        });
-
-        // 약국 요청 (병원과 같은 방식으로, type을 "pharmacy"로 변경)
-        url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + currentLocation.latitude + "," + currentLocation.longitude +
-                "&radius=" + SEARCH_RADIUS + "&type=pharmacy&key=" + placesApiKey;
-
-        new OkHttpClient().newCall(new Request.Builder().url(url).build()).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "약국 검색 실패", e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    JSONObject json = null;
-                    try {
-                        json = new JSONObject(response.body().string());
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                    JSONArray results = json.optJSONArray("results");
-                    List<String> pharmacies = new ArrayList<>();
-                    if (results != null) {
-                        for (int i = 0; i < results.length(); i++) {
-                            JSONObject place = results.optJSONObject(i);
-                            String pharmacyName = place.optString("name", "이름 없음");
-                            pharmacies.add(pharmacyName);
-                        }
-                        Log.d(TAG, "✅ 약국 검색 결과 개수: " + pharmacies.size());
-
-                        runOnUiThread(() -> {
-                            // 약국이 있을 경우 ListView에 데이터 세팅
-                            lvPharmacies.setAdapter(new ArrayAdapter<>(SymptomSearchActivity.this, android.R.layout.simple_list_item_1, pharmacies));
-                            tvPharmacyCount.setText("약국 수: " + pharmacies.size());
-
-                            // 약국 리스트가 비어있으면 메시지 보이기, 아니면 리스트 보이기
-                            if (pharmacies.isEmpty()) {
-                                lvPharmacies.setVisibility(View.GONE);
-                                findViewById(R.id.no_pharmacies_message).setVisibility(View.VISIBLE);
-                            } else {
-                                lvPharmacies.setVisibility(View.VISIBLE);
-                                findViewById(R.id.no_pharmacies_message).setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                }
-            }
-        });
-    }
-
-    private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // 안전하게 또 요청하고 반환
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
-                    LOCATION_PERMISSION_REQUEST_CODE
-            );
-            return;
+    private static class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.VH> {
+        private final List<PlaceItem> items;
+        PlaceAdapter(List<PlaceItem> items){ this.items=items; }
+        @NonNull @Override
+        public VH onCreateViewHolder(@NonNull ViewGroup p,int vt){
+            View v= LayoutInflater.from(p.getContext())
+                    .inflate(android.R.layout.simple_list_item_2,p,false);
+            return new VH(v);
         }
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, location -> {
-                    if (location != null) {
-                        currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                        // 최초 리스트 조회
-                        fetchNearbyPlacesWithDistance(currentLocation, "hospital", lvHospitals, tvHospitalCount);
-                        fetchNearbyPlacesWithDistance(currentLocation, "pharmacy", lvPharmacies, tvPharmacyCount);
-                    } else {
-                        Toast.makeText(this, "현재 위치를 가져올 수 없습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    // 거리 계산+어댑터 연결
-    private void fetchNearbyPlacesWithDistance(LatLng loc, String type,
-                                               ListView listView, TextView countView) {
-
-        String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
-                + "?location=" + loc.latitude + "," + loc.longitude
-                + "&radius=" + SEARCH_RADIUS
-                + "&type=" + type
-                + "&key=" + placesApiKey;
-
-        new OkHttpClient().newCall(new Request.Builder().url(url).build())
-                .enqueue(new Callback() {
-                    @Override public void onFailure(Call call, IOException e) {
-                        Log.e(TAG, "검색 실패", e);
-                    }
-                    @Override public void onResponse(Call call, Response resp) throws IOException {
-                        if (!resp.isSuccessful()) return;
-                        try {
-                            JSONObject  root = new JSONObject(resp.body().string());
-                            JSONArray   arr  = root.optJSONArray("results");
-                            List<PlaceItem> items = new ArrayList<>();
-                            for(int i=0; i<arr.length(); i++){
-                                JSONObject o = arr.getJSONObject(i);
-                                String name = o.optString("name");
-                                double  lat  = o.getJSONObject("geometry")
-                                        .getJSONObject("location")
-                                        .optDouble("lat");
-                                double  lng  = o.getJSONObject("geometry")
-                                        .getJSONObject("location")
-                                        .optDouble("lng");
-                                items.add(new PlaceItem(name, lat, lng));
-                            }
-                            runOnUiThread(() -> {
-                                countView.setText((type.equals("hospital")?"병원":"약국")+" 수: "+items.size());
-                                if(items.isEmpty()){
-                                    listView.setVisibility(View.GONE);
-                                } else {
-                                    listView.setVisibility(View.VISIBLE);
-                                    listView.setAdapter(new ArrayAdapter<PlaceItem>(
-                                            SymptomSearchActivity.this,
-                                            android.R.layout.simple_list_item_2,
-                                            android.R.id.text1,
-                                            items
-                                    ) {
-                                        @NonNull @Override
-                                        public View getView(int pos, View cv, ViewGroup parent) {
-                                            View v = super.getView(pos, cv, parent);
-                                            TextView t1 = v.findViewById(android.R.id.text1);
-                                            TextView t2 = v.findViewById(android.R.id.text2);
-                                            PlaceItem it = getItem(pos);
-                                            t1.setText(it.name);
-                                            // 내 위치 ↔ 장소 거리 계산
-                                            float[] res = new float[1];
-                                            Location.distanceBetween(
-                                                    currentLocation.latitude,
-                                                    currentLocation.longitude,
-                                                    it.lat, it.lng,
-                                                    res
-                                            );
-                                            t2.setText(Math.round(res[0]) + "m");
-                                            return v;
-                                        }
-                                    });
-                                }
-                            });
-                        } catch (JSONException ex) {
-                            Log.e(TAG, "JSON 파싱 에러", ex);
-                        }
-                    }
-                });
-    }
-
-
-    private void requestLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{ Manifest.permission.ACCESS_FINE_LOCATION },
-                    LOCATION_PERMISSION_REQUEST_CODE
+        @Override public void onBindViewHolder(@NonNull VH vh,int pos){
+            PlaceItem it=items.get(pos);
+            vh.t1.setText(it.name);
+            float[] dist=new float[1];
+            Location.distanceBetween(
+                    ((SymptomSearchActivity)vh.t1.getContext()).currentLocation.latitude,
+                    ((SymptomSearchActivity)vh.t1.getContext()).currentLocation.longitude,
+                    it.lat,it.lng,dist
             );
-        } else {
-            // 권한이 이미 있을 때: ① 초기 한 번 위치 가져와서 리스트 채우기
-            getCurrentLocation();
-            // ② 그 후엔 실시간 업데이트만 저장
-            startLocationUpdates();
+            vh.t2.setText(Math.round(dist[0])+"m");
+        }
+        @Override public int getItemCount(){return items.size();}
+        static class VH extends RecyclerView.ViewHolder {
+            final TextView t1,t2;
+            VH(View v){ super(v);
+                t1=v.findViewById(android.R.id.text1);
+                t2=v.findViewById(android.R.id.text2);
+            }
         }
     }
 
-    /**
-     * Set up adapters and listeners for medicine selection spinners.
-     */
-    // 계열별 약 검색 수 업데이트 부분 (스피너 선택 시)
-    private void setupMedicineSpinners() {
-        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(categoryMap.keySet()));
-        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spCategory.setAdapter(catAdapter);
-
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                String key = catAdapter.getItem(pos);
-                List<String> subs = categoryMap.getOrDefault(key, Collections.emptyList());
-                ArrayAdapter<String> subAdapter = new ArrayAdapter<>(SymptomSearchActivity.this, android.R.layout.simple_spinner_item, subs);
-                subAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spSub.setAdapter(subAdapter);
+    private static class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.VH> {
+        private final List<Medicine> meds;
+        MedicineAdapter(List<Medicine> meds){ this.meds=meds; }
+        @NonNull @Override
+        public VH onCreateViewHolder(@NonNull ViewGroup p,int vt){
+            View v= LayoutInflater.from(p.getContext())
+                    .inflate(R.layout.item_medicine,p,false);
+            return new VH(v);
+        }
+        @Override public void onBindViewHolder(@NonNull VH vh,int pos){
+            Medicine m=meds.get(pos);
+            vh.name   .setText(m.getName());
+            vh.efficacy.setText("효능: "+m.getEfficacy());
+            vh.usage  .setText("복용법: "+m.getUsage());
+            vh.price  .setText("가격: "+m.getPrice());
+        }
+        @Override public int getItemCount(){return meds.size();}
+        static class VH extends RecyclerView.ViewHolder {
+            final TextView name, efficacy, usage, price;
+            VH(View v){ super(v);
+                name   =v.findViewById(R.id.tvMedName);
+                efficacy=v.findViewById(R.id.tvMedEfficacy);
+                usage  =v.findViewById(R.id.tvMedUsage);
+                price  =v.findViewById(R.id.tvMedPrice);
             }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        spSub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                String catKey = (String) spCategory.getSelectedItem();
-                List<Medicine> meds = medicineData.getOrDefault(catKey, Collections.emptyList());
-                lvResults.setAdapter(new ArrayAdapter<>(SymptomSearchActivity.this, android.R.layout.simple_list_item_1, meds));
-                tvMedicineCount.setText("계열별 약 검색 수: " + meds.size());
-            }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        lvResults.setOnItemClickListener((parent, view, position, id) -> {
-            Medicine m = (Medicine) parent.getItemAtPosition(position);
-            Intent intent = new Intent(SymptomSearchActivity.this, MapActivity.class);
-            intent.putExtra("search_medicine", m.getName());
-            startActivity(intent);
-        });
+        }
     }
 }

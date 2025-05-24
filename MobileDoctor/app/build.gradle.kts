@@ -47,6 +47,9 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
+    // 머티리얼 컴포넌트
+    implementation("com.google.android.material:material:1.9.0")
+
     // Naver 파싱
     implementation("org.jsoup:jsoup:1.15.3")
 
@@ -64,6 +67,7 @@ dependencies {
     // 기타
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("commons-io:commons-io:2.4")
+    implementation(libs.coordinatorlayout)
 
     // 테스트
     testImplementation(libs.junit)

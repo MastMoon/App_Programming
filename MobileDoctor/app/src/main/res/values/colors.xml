@@ -4,4 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="status_open">#388E3C</color>   <!-- 짙은 녹색 -->
     <color name="status_closed">#D32F2F</color> <!-- 짙은 빨강 -->
+    <color name="teal_700">#018786</color>
+    <color name="teal_900">#00574B</color>
+    <color name="amber_500">#FFC107</color>
+    <color name="background">#FFFFFF</color>  <!-- 라이트 모드 배경 -->
 </resources>

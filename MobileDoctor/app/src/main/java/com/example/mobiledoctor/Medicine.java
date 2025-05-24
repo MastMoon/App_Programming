@@ -15,6 +15,21 @@ public class Medicine {
         return name;
     }
 
+    /** 효능 반환 */
+    public String getEfficacy() {
+        return efficacy;
+    }
+
+    /** 복용법 반환 */
+    public String getUsage() {
+        return usage;
+    }
+
+    /** 가격 반환 */
+    public String getPrice() {
+        return price;
+    }
+
     @Override
     public String toString() {
         return "이름: "      + name

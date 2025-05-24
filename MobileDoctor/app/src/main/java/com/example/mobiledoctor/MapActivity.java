@@ -418,12 +418,14 @@ public class MapActivity extends AppCompatActivity
     }
 
     @Override
-    public View getInfoWindow(Marker marker) {
+    public View getInfoContents(Marker marker) {
+        // getInfoWindow 을 쓰고 있으므로 여기서는 null 을 리턴
         return null;
     }
 
     @Override
-    public View getInfoContents(Marker marker) {
+    public View getInfoWindow(Marker marker) {
+        // 아예 이 뷰 전체를 InfoWindow 로 쓰겠다!
         View v = getLayoutInflater().inflate(R.layout.info_window, null);
         TextView t1 = v.findViewById(R.id.title);
         TextView t2 = v.findViewById(R.id.snippet);
@@ -434,25 +436,24 @@ public class MapActivity extends AppCompatActivity
 
         t1.setText(marker.getTitle());
 
-        // 영업 중/영업 종료 상태에 따라 색상 변경
-        String status = marker.getSnippet();  // "영업 중" 또는 "영업 종료"
+        String status = marker.getSnippet();
         t2.setText(status);
-        if ("영업 중".equals(status)) {
-            t2.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark));
-        } else {
-            t2.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
-        }
+        int colorRes = "영업 중".equals(status)
+                ? android.R.color.holo_green_dark
+                : android.R.color.holo_red_dark;
+        t2.setTextColor(ContextCompat.getColor(MapActivity.this, colorRes));
 
-        t2.setText(marker.getSnippet());
         PlaceDetails d = detailsMap.get(marker);
         if (d != null) {
             tAddr.setText("주소: " + d.address);
             tPhone.setText("전화: " + d.phone);
             tHours.setText("영업 시간:\n" + d.hours);
         }
+
         boolean isPharm = "pharmacy".equals(markerTypes.get(marker));
         btnStock.setVisibility(isPharm ? View.VISIBLE : View.GONE);
-        btnStock.setOnClickListener(view -> onInfoWindowClick(marker));
+        btnStock.setOnClickListener(x -> onInfoWindowClick(marker));
+
         return v;
     }
 
@@ -479,23 +480,23 @@ public class MapActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.action_refresh) {
             if (currentLocation != null) {
-                // ① 기존 마커 모두 제거
+                // ① 기존에 지도에 올라가 있던 마커 전부 지우기
                 googleMap.clear();
-                // ② 저장된(실시간으로 가장 최근) 위치 기준으로 재조회
+
+                // ② 마지막으로 받은 currentLocation 기준으로 다시 주변 검색
                 searchNearbyPlaces(currentLocation, "hospital");
                 searchNearbyPlaces(currentLocation, "pharmacy");
-                Toast.makeText(this,
-                        "주변 정보가 갱신되었습니다.", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(this, "주변 정보가 갱신되었습니다.", Toast.LENGTH_SHORT).show();
             } else {
-                // 아직 위치 한 번도 못 받은 경우
-                enableMyLocation();
-                Toast.makeText(this,
-                        "위치를 다시 가져옵니다…", Toast.LENGTH_SHORT).show();
+                enableMyLocation();  // 아직 위치를 못 받았다면 위치 권한/조회부터 다시
+                Toast.makeText(this, "위치를 다시 가져옵니다…", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
     // Holder for place details
