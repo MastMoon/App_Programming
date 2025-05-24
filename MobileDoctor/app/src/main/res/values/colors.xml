@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="status_open">#388E3C</color>   <!-- 짙은 녹색 -->
+    <color name="status_closed">#D32F2F</color> <!-- 짙은 빨강 -->
+</resources>

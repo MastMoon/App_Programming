@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:padding="16dp">
+
+    <!-- 툴바 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_inventory"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="재고 목록"
+        app:titleTextColor="@android:color/black" />
+
+    <!-- 병원 이름, 주소, 전화번호 텍스트 표시 -->
+    <TextView
+        android:id="@+id/place_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="병원 이름"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/place_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="병원 주소"
+        android:textSize="16sp"
+        android:paddingBottom="8dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/place_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="병원 전화번호"
+        android:textSize="16sp"
+        android:paddingBottom="16dp"
+        android:textColor="@android:color/black" />
+
+    <!-- RecyclerView: 재고 목록 표시 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_inventory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false" />
+</LinearLayout>
