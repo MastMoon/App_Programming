@@ -1,0 +1,59 @@
+# ────────────────────────────
+# IDE & 에디터 설정
+# ────────────────────────────
+*.iml
+.idea/
+.DS_Store
+
+# ────────────────────────────
+# Gradle 래퍼 & 캐시
+# ────────────────────────────
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# ────────────────────────────
+# Gradle 속성 파일 (루트 + 모듈 공통)
+# ────────────────────────────
+/MobileDoctor/gradle.properties
+/MobileDoctor/app/gradle.properties
+/MobileDoctor/local.properties
+
+# ────────────────────────────
+# 빌드 결과물
+# ────────────────────────────
+/MobileDoctor/build/
+/MobileDoctor/app/build/
+/MobileDoctor/captures/
+/MobileDoctor/.externalNativeBuild/
+/MobileDoctor/.cxx/
+
+# ────────────────────────────
+# Android 리소스 (환경별/민감)
+# ────────────────────────────
+/MobileDoctor/app/src/main/res/values/strings.xml
+
+# ────────────────────────────
+# 서명용 키스토어 (민감 정보)
+# ────────────────────────────
+*.jks
+*.keystore
+*.p12
+
+# ────────────────────────────
+# 추가로 무시할 민감/불필요 항목
+# ────────────────────────────
+/MobileDoctor/google-services.json           # Firebase 구성 파일 ← 추가
+/MobileDoctor/app/google-services.json       # 모듈별도
+*.env                                        # 환경변수 파일
+*.env.*                                      # .env.production 등
+secrets.properties                           # 커스텀 비밀번호 분리용
+/MobileDoctor/fabric.properties              # Crashlytics/Fabric 토큰 파일
+/MobileDoctor/app/fabric.properties
+**/keystore.properties                       # keystore 비밀번호 분리 파일
+**/mapping.txt                               # ProGuard/R8 매핑 리포트
+/app/build/reports/                          # 테스트 리포트 불필요 산출물
+/app/build/outputs/code_coverage/            # 커버리지 결과
+*.p8                                         # APNs 키 등
+*.gpg                                        # 암호화 키

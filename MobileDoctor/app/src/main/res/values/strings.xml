@@ -1,0 +1,5 @@
+<resources>
+    <string name="category_prompt">증상 카테고리 선택</string>
+    <string name="symptom_prompt">세부 증상 선택</string>
+    <string name="PLACES_API_KEY">AIzaSyDnRcN4lz_Uhv3rvKMGdhKA1h3QQ43MtGM</string>
+</resources>
