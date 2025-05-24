@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MainActivity 레이아웃: 두 개의 버튼으로 구성 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 환영 메시지 또는 안내 텍스트 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="원하는 서비스를 선택하세요"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:textColor="#333333" />
+
+    <!-- 증상 검색 화면으로 이동하는 버튼 -->
+    <Button
+        android:id="@+id/btn_symptom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="증상 검색"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"/>
+
+    <!-- 주변 병원/약국 지도 화면으로 이동하는 버튼 -->
+    <Button
+        android:id="@+id/btn_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내 주변 병원/약국 찾기"
+        android:layout_marginTop="12dp"
+        android:padding="12dp"/>
+</LinearLayout>
