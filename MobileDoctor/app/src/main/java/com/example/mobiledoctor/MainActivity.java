@@ -38,13 +38,12 @@ public class MainActivity extends BaseActivity {
 
         // 화면 밝기 값 초기화
         try {
-            // 현재 밝기 값 가져오기 (0~255 범위)
             int currentBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
-            brightnessSeekBar.setProgress(currentBrightness);
+            // 화면 밝기 값이 0~255 범위에서 0~100 범위로 변환
+            int currentBrightnessPercentage = (int) (currentBrightness / 255.0 * 100);
+            brightnessSeekBar.setProgress(currentBrightnessPercentage);
 
-            // 밝기 텍스트 업데이트
-            brightnessText.setText("현재 밝기: " + currentBrightness);
-
+            brightnessText.setText("현재 밝기: " + currentBrightnessPercentage);
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
         }
@@ -53,15 +52,19 @@ public class MainActivity extends BaseActivity {
         brightnessSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // 0~100 범위에서 밝기 값을 0~255 범위로 변환
+                int brightnessValue = (int) (progress / 100.0 * 255);
+
                 // 밝기 값 업데이트
                 if (Settings.System.canWrite(MainActivity.this)) {
                     ContentResolver cResolver = getContentResolver();
-                    Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, progress);
+                    Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightnessValue);
 
                     // 밝기 텍스트 업데이트
                     brightnessText.setText("현재 밝기: " + progress);
                 }
             }
+
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
