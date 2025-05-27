@@ -59,7 +59,7 @@ public class IntentActivity extends AppCompatActivity {
 
         }
         if (view.getId() == R.id.btn_num){
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("content://contacts/people"));
+            intent = new Intent(IntentActivity.this, ContactActivity.class);
 
         }
         if (view.getId() == R.id.btn_memo){
