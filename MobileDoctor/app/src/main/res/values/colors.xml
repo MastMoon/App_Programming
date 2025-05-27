@@ -8,4 +8,7 @@
     <color name="teal_900">#00574B</color>
     <color name="amber_500">#FFC107</color>
     <color name="background">#FFFFFF</color>  <!-- 라이트 모드 배경 -->
+    <!-- 이미 정의된 색상이 있다면 그대로 두고, 추가할 것만 넣으세요 -->
+    <color name="gray_light">#EEEEEE</color>
+    <color name="gray_dark">#757575</color>
 </resources>

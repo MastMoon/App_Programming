@@ -127,11 +127,31 @@ public class SymptomSearchActivity extends BaseActivity {
 
     // — Spinner 세팅
     private void setupMedicineSpinners() {
-        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item,
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
                 new ArrayList<>(categoryMap.keySet())
-        );
-        catAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ) {
+            @NonNull @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                TextView tv = (TextView) super.getView(position, convertView, parent);
+                boolean zoom = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+                        .getBoolean("isZoomEnabled", false);
+                tv.setTextSize(zoom ? 30f : 16f);
+                return tv;
+            }
+
+            @NonNull @Override
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+                TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                boolean zoom = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+                        .getBoolean("isZoomEnabled", false);
+                tv.setTextSize(zoom ? 30f : 16f);
+                return tv;
+            }
+        };
+
+        catAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spCategory.setAdapter(catAdapter);
         spCategory.setThreshold(1);
         spCategory.setOnClickListener(v -> spCategory.showDropDown());
@@ -139,10 +159,28 @@ public class SymptomSearchActivity extends BaseActivity {
         spCategory.setOnItemClickListener((parent, view, pos, id) -> {
             String key = catAdapter.getItem(pos);
             List<String> subs = categoryMap.getOrDefault(key, Collections.emptyList());
-            ArrayAdapter<String> subAdapter = new ArrayAdapter<>(
-                    this, android.R.layout.simple_spinner_item, subs
-            );
-            subAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            ArrayAdapter<String> subAdapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_dropdown_item_1line, subs
+            ) {
+                @NonNull @Override
+                public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                    TextView tv = (TextView) super.getView(position, convertView, parent);
+                    boolean zoom = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+                            .getBoolean("isZoomEnabled", false);
+                    tv.setTextSize(zoom ? 30f : 16f);
+                    return tv;
+                }
+                @NonNull @Override
+                public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+                    TextView tv = (TextView) super.getDropDownView(position, convertView, parent);
+                    boolean zoom = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+                            .getBoolean("isZoomEnabled", false);
+                    tv.setTextSize(zoom ? 30f : 16f);
+                    return tv;
+                }
+            };
+            subAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             spSub.setAdapter(subAdapter);
             spSub.setThreshold(1);
             spSub.setOnClickListener(v -> spSub.showDropDown());
@@ -153,7 +191,7 @@ public class SymptomSearchActivity extends BaseActivity {
             String catKey = spCategory.getText().toString();
             List<Medicine> meds = medicineData.getOrDefault(catKey, Collections.emptyList());
             tvMedicineCount.setText("계열별 약 검색 수: " + meds.size());
-            rvMedResults.setAdapter(new MedicineAdapter(meds, this));  // Context 전달
+            rvMedResults.setAdapter(new MedicineAdapter(meds, this));
         });
     }
 

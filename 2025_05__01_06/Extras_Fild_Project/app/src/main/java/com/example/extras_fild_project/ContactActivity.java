@@ -1,6 +1,7 @@
 package com.example.extras_fild_project;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -77,6 +78,28 @@ public class ContactActivity extends AppCompatActivity {
         j_edit_contact_name.setText(" ");
         j_edit_contact_number.setText(" ");
 
+    }
+
+    public void search(View target){
+        String name = j_edit_contact_name.getText().toString();
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT name, tel FROM contacts WHERE name='" + name + "';", null);
+        while(cursor.moveToNext()){
+            String tel = cursor.getString(1);
+            j_edit_contact_number.setText(tel);
+        }
+    }
+
+    public void select_all(View target){
+        Cursor cursor;
+        cursor = db.rawQuery("SELECT * FROM contacts", null);
+        String s = "ID      name        tel \r\n";
+        while(cursor.moveToNext()){
+            s += cursor.getString(0) + "        ";
+            s += cursor.getString(1) + "        ";
+            s += cursor.getString(2) + "        ";
+        }
+        edit_result.setText(s);
     }
 }
 
