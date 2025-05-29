@@ -408,26 +408,26 @@ public class SymptomSearchActivity extends BaseActivity {
 
         // 정신건강 계열 (4개)
         medicineData.put("정신건강 계열", Arrays.asList(
-                new Medicine("시탈로프람", "우울증 치료",     "20mg 1회",  "₩5,500", R.drawable.img_tylenol),
-                new Medicine("알프라졸람", "불안 완화",        "0.5mg 2회", "₩6,000", R.drawable.img_tylenol),
-                new Medicine("졸피뎀",     "수면 유도",        "10mg 취침 전","₩4,200", R.drawable.img_tylenol),
-                new Medicine("부스피론",   "경도 불안 완화",   "5mg 2회",   "₩3,800", R.drawable.img_tylenol)
+                new Medicine("시탈로프람", "우울증 치료",     "20mg 1회",  "₩5,500", R.drawable.img_citalopram),
+                new Medicine("알프라졸람", "불안 완화",        "0.5mg 2회", "₩6,000", R.drawable.img_alprazolam),
+                new Medicine("졸피뎀",     "수면 유도",        "10mg 취침 전","₩4,200", R.drawable.img_zolpidem),
+                new Medicine("부스피론",   "경도 불안 완화",   "5mg 2회",   "₩3,800", R.drawable.img_buspirone)
         ));
 
         // 당뇨 계열 (5개)
         medicineData.put("당뇨 계열", Arrays.asList(
-                new Medicine("메트포르민",     "혈당 강하",       "500mg 2회",     "₩4,500", R.drawable.img_tylenol),
-                new Medicine("인슐린 글라진","혈당 조절",       "1회 자가주사",  "₩15,000", R.drawable.img_tylenol),
-                new Medicine("시타글립틴",   "혈당 조절",       "50mg 1회",      "₩6,000", R.drawable.img_tylenol),
-                new Medicine("글리벤클라미드","인슐린 분비 촉진","5mg 1회",       "₩4,200", R.drawable.img_tylenol),
-                new Medicine("에토글리플로진","혈당 배출 촉진", "10mg 1회",      "₩7,500", R.drawable.img_tylenol)
+                new Medicine("메트포르민",     "혈당 강하",       "500mg 2회",     "₩4,500", R.drawable.img_metformin),
+                new Medicine("인슐린 글라진","혈당 조절",       "1회 자가주사",  "₩15,000", R.drawable.img_insulin_glargine),
+                new Medicine("시타글립틴",   "혈당 조절",       "50mg 1회",      "₩6,000", R.drawable.img_sitagliptin),
+                new Medicine("글리벤클라미드","인슐린 분비 촉진","5mg 1회",       "₩4,200", R.drawable.img_glibenclamide),
+                new Medicine("에토글리플로진","혈당 배출 촉진", "10mg 1회",      "₩7,500", R.drawable.img_ertugliflozin)
         ));
 
         // 기타 (3개)
         medicineData.put("기타", Arrays.asList(
-                new Medicine("비타민C",    "면역력 증진",    "500mg 1회",  "₩1,000", R.drawable.img_tylenol),
-                new Medicine("폴리덴탈겔","치은염 완화",    "3~4회 도포", "₩1,500", R.drawable.img_tylenol),
-                new Medicine("니코틴패치","금연 보조",      "21mg 1패치", "₩5,000", R.drawable.img_tylenol)
+                new Medicine("비타민C",    "면역력 증진",    "500mg 1회",  "₩1,000", R.drawable.img_vitamin_c),
+                new Medicine("폴리덴탈겔","치은염 완화",    "3~4회 도포", "₩1,500", R.drawable.img_polydental_gel),
+                new Medicine("니코틴패치","금연 보조",      "21mg 1패치", "₩5,000", R.drawable.img_nicotine_patch)
         ));
     }
 
