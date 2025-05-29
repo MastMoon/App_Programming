@@ -3,12 +3,14 @@ package com.example.mobiledoctor;
 public class Medicine {
 
     private final String name, efficacy, usage, price;
+    private final int imageResId;           // ← 추가
 
-    public Medicine(String name, String efficacy, String usage, String price) {
-        this.name     = name;
-        this.efficacy = efficacy;
-        this.usage    = usage;
-        this.price    = price;
+    public Medicine(String name, String efficacy, String usage, String price, int imageResId) {
+        this.name       = name;
+        this.efficacy   = efficacy;
+        this.usage      = usage;
+        this.price      = price;
+        this.imageResId = imageResId;
     }
 
     /** 약 이름 반환 */
@@ -29,6 +31,10 @@ public class Medicine {
     /** 가격 반환 */
     public String getPrice() {
         return price;
+    }
+
+    public int getImageResId() {
+        return imageResId;
     }
 
     @Override

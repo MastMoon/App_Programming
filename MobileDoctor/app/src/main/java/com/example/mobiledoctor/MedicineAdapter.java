@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class MedicineAdapter extends ArrayAdapter<Medicine> {
+
     private final LayoutInflater inflater;
     private final SharedPreferences sharedPreferences;
 

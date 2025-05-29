@@ -16,4 +16,12 @@
     <style name="MDBody" parent="TextAppearance.MaterialComponents.Body2">
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <!-- 풀스크린 전용 테마 (AppCompat 계열) -->
+    <style name="Theme.MobileDoctor.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 전체화면 모드 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 상태바, 네비게이션 바 색상은 기기 기본 사용 -->
+    </style>
+
 </resources>

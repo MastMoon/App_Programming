@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:background="?attr/colorPrimary"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="지도 보기"
+            app:title="내 주변 병원/약국 찾기"
             app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:titleTextColor="#FFFFFF" />
     </com.google.android.material.appbar.AppBarLayout>

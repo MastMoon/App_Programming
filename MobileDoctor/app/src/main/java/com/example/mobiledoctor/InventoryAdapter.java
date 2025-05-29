@@ -136,7 +136,7 @@ public class InventoryAdapter
     private void applyZoomState(ViewHolder holder) {
         // SharedPreferences에서 돋보기 상태 가져오기
         boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
-        float zoomSize = isZoomEnabled ? 30f : 16f;
+        float zoomSize = isZoomEnabled ? 34f : 20f;
 
         // TextView 크기 조정
         holder.textView.setTextSize(zoomSize);

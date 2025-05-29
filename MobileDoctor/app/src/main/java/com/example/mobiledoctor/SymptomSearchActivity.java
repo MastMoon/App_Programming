@@ -3,6 +3,7 @@ package com.example.mobiledoctor;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -348,85 +350,84 @@ public class SymptomSearchActivity extends BaseActivity {
     private void initMedicineData() {
         // 두통 계열 (4개)
         medicineData.put("두통 계열", Arrays.asList(
-                new Medicine("타이레놀",     "두통·발열 완화",    "500mg 4~6h", "₩3,000"),
-                new Medicine("게보린",       "두통 완화",         "400mg 4h",   "₩3,500"),
-                new Medicine("브롬페리드",   "편두통 완화",       "2정 2회",    "₩4,000"),
-                new Medicine("이부프로펜",   "통증·염증 완화",    "200mg 3회",  "₩2,500")
+                new Medicine("타이레놀",     "두통·발열 완화",    "500mg 4~6h", "₩3,000", R.drawable.img_tylenol),
+                new Medicine("게보린",       "두통 완화",         "400mg 4h",   "₩3,500", R.drawable.img_gevorin),
+                new Medicine("이부프로펜",   "통증·염증 완화",    "200mg 3회",  "₩2,500", R.drawable.img_ibuprofen)
         ));
 
         // 감기 계열 (5개)
         medicineData.put("감기 계열", Arrays.asList(
-                new Medicine("판피린",       "감기 증상 완화",      "2정 3회",    "₩2,500"),
-                new Medicine("콜대원",       "기침·가래 완화",      "1포 3회",    "₩4,000"),
-                new Medicine("테라플루",     "감기 복합 증상 완화", "1포 4회",    "₩5,500"),
-                new Medicine("판콜",         "콧물·재채기 완화",    "2정 3회",    "₩3,200"),
-                new Medicine("타이레놀 콜드","감기 통증·해열",      "500mg 4회",  "₩4,200")
+                new Medicine("판피린",       "감기 증상 완화",      "2정 3회",    "₩2,500", R.drawable.img_panpyrin),
+                new Medicine("콜대원",       "기침·가래 완화",      "1포 3회",    "₩4,000", R.drawable.img_coldawon),
+                new Medicine("테라플루",     "감기 복합 증상 완화", "1포 4회",    "₩5,500", R.drawable.img_theraflu),
+                new Medicine("판콜",         "콧물·재채기 완화",    "2정 3회",    "₩3,200", R.drawable.img_pancol),
+                new Medicine("타이레놀 콜드","감기 통증·해열",      "500mg 4회",  "₩4,200", R.drawable.img_tylenolcold)
         ));
 
         // 소화 계열 (5개)
         medicineData.put("소화 계열", Arrays.asList(
-                new Medicine("겔포스",       "위산 중화",           "1포 식전·식후", "₩1,500"),
-                new Medicine("베아제",       "소화불량 개선",       "2정 식전",      "₩1,800"),
-                new Medicine("우르사",       "간 보호",             "1정 3회",       "₩3,200"),
-                new Medicine("가스터정",     "위염·속쓰림 완화",    "1정 2회",       "₩2,200"),
-                new Medicine("모사프리드",   "위장 운동 촉진",      "5mg 3회",       "₩2,600")
+                new Medicine("겔포스",       "위산 중화",           "1포 식전·식후", "₩1,500", R.drawable.img_gelfos),
+                new Medicine("베아제",       "소화불량 개선",       "2정 식전",      "₩1,800", R.drawable.img_beazyme),
+                new Medicine("우르사",       "간 보호",             "1정 3회",       "₩3,200", R.drawable.img_ursa),
+                new Medicine("가스터정",     "위염·속쓰림 완화",    "1정 2회",       "₩2,200", R.drawable.img_gastertab),
+                new Medicine("모사프리드",   "위장 운동 촉진",      "5mg 3회",       "₩2,600", R.drawable.img_mosapride)
         ));
 
         // 피부 계열 (4개)
         medicineData.put("피부 계열", Arrays.asList(
-                new Medicine("센텔라 크림", "가려움 완화",     "적당량 도포",   "₩5,000"),
-                new Medicine("벤젠크림",     "발진 억제",       "1일 2회",       "₩4,500"),
-                new Medicine("히루닥",       "상처 치료",       "적용부위 도포", "₩6,000"),
-                new Medicine("스테로이드 연고","염증 완화",     "1일 1회",       "₩3,800")
+                new Medicine("센텔라 크림", "가려움 완화",     "적당량 도포",   "₩5,000", R.drawable.img_centella_cream),
+                new Medicine("벤젠크림",     "발진 억제",       "1일 2회",       "₩4,500", R.drawable.img_benzocaine_cream),
+                new Medicine("히루닥",       "상처 치료",       "적용부위 도포", "₩6,000", R.drawable.img_hirudac),
+                new Medicine("스테로이드 연고","염증 완화",     "1일 1회",       "₩3,800", R.drawable.img_steroid_ointment)
         ));
 
         // 염증 계열 (4개)
         medicineData.put("염증 계열", Arrays.asList(
-                new Medicine("나프록센",   "염증·통증 완화",    "220mg 2회", "₩4,000"),
-                new Medicine("피록시캄",   "염증 완화",         "20mg 1회",  "₩3,500"),
-                new Medicine("프레드니솔론","중등도 염증 억제", "5mg 1회",   "₩2,000"),
-                new Medicine("아스피린",   "통증·염증 완화",    "325mg 4~6h","₩3,000")
+                new Medicine("나프록센",   "염증·통증 완화",    "220mg 2회", "₩4,000", R.drawable.img_naproxen),
+                new Medicine("피록시캄",   "염증 완화",         "20mg 1회",  "₩3,500", R.drawable.img_piroxicam),
+                new Medicine("프레드니솔론","중등도 염증 억제", "5mg 1회",   "₩2,000", R.drawable.img_prednisolone),
+                new Medicine("아스피린",   "통증·염증 완화",    "325mg 4~6h","₩3,000", R.drawable.img_aspirin)
         ));
 
         // 심혈관 계열 (4개)
         medicineData.put("심혈관 계열", Arrays.asList(
-                new Medicine("로수바스타틴","콜레스테롤 저하", "10mg 1회",   "₩8,000"),
-                new Medicine("카르베디롤",  "혈압 강하",       "12.5mg 2회", "₩5,500"),
-                new Medicine("디곡신",      "심박 조절",       "0.25mg 1회", "₩6,000"),
-                new Medicine("클로피도그렐","혈전 예방",       "75mg 1회",   "₩7,000")
+                new Medicine("로수바스타틴","콜레스테롤 저하", "10mg 1회",   "₩8,000", R.drawable.img_rosuvastatin),
+                new Medicine("카르베디롤",  "혈압 강하",       "12.5mg 2회", "₩5,500", R.drawable.img_carvedilol),
+                new Medicine("디곡신",      "심박 조절",       "0.25mg 1회", "₩6,000", R.drawable.img_digoxin),
+                new Medicine("클로피도그렐","혈전 예방",       "75mg 1회",   "₩7,000", R.drawable.img_clopidogrel)
         ));
 
         // 호흡기 계열 (5개)
         medicineData.put("호흡기 계열", Arrays.asList(
-                new Medicine("알부테롤흡입제","천식 증상 완화",   "1~2회 흡입",  "₩4,500"),
-                new Medicine("몬테루카스트",  "기관지 확장",       "10mg 1회",    "₩3,000"),
-                new Medicine("암브록솔",      "가래 배출 도움",     "30mg 3회",    "₩2,800"),
-                new Medicine("타이로민",      "콧물 완화",         "1포 3회",     "₩4,000"),
-                new Medicine("스테로이드 흡입제","천식 염증 억제","1일 2회 흡입","₩7,500")
+                new Medicine("알부테롤흡입제","천식 증상 완화",   "1~2회 흡입",  "₩4,500", R.drawable.img_albuterol_inhaler),
+                new Medicine("몬테루카스트",  "기관지 확장",       "10mg 1회",    "₩3,000", R.drawable.img_montelukast),
+                new Medicine("암브록솔",      "가래 배출 도움",     "30mg 3회",    "₩2,800", R.drawable.img_ambroxol),
+                new Medicine("타이로민",      "콧물 완화",         "1포 3회",     "₩4,000", R.drawable.img_tyromine),
+                new Medicine("스테로이드 흡입제","천식 염증 억제","1일 2회 흡입","₩7,500", R.drawable.img_inhaled_corticosteroid)
         ));
 
         // 정신건강 계열 (4개)
         medicineData.put("정신건강 계열", Arrays.asList(
-                new Medicine("시탈로프람", "우울증 치료",     "20mg 1회",  "₩5,500"),
-                new Medicine("알프라졸람", "불안 완화",        "0.5mg 2회", "₩6,000"),
-                new Medicine("졸피뎀",     "수면 유도",        "10mg 취침 전","₩4,200"),
-                new Medicine("부스피론",   "경도 불안 완화",   "5mg 2회",   "₩3,800")
+                new Medicine("시탈로프람", "우울증 치료",     "20mg 1회",  "₩5,500", R.drawable.img_tylenol),
+                new Medicine("알프라졸람", "불안 완화",        "0.5mg 2회", "₩6,000", R.drawable.img_tylenol),
+                new Medicine("졸피뎀",     "수면 유도",        "10mg 취침 전","₩4,200", R.drawable.img_tylenol),
+                new Medicine("부스피론",   "경도 불안 완화",   "5mg 2회",   "₩3,800", R.drawable.img_tylenol)
         ));
 
         // 당뇨 계열 (5개)
         medicineData.put("당뇨 계열", Arrays.asList(
-                new Medicine("메트포르민",     "혈당 강하",       "500mg 2회",     "₩4,500"),
-                new Medicine("인슐린 글라진","혈당 조절",       "1회 자가주사",  "₩15,000"),
-                new Medicine("시타글립틴",   "혈당 조절",       "50mg 1회",      "₩6,000"),
-                new Medicine("글리벤클라미드","인슐린 분비 촉진","5mg 1회",       "₩4,200"),
-                new Medicine("에토글리플로진","혈당 배출 촉진", "10mg 1회",      "₩7,500")
+                new Medicine("메트포르민",     "혈당 강하",       "500mg 2회",     "₩4,500", R.drawable.img_tylenol),
+                new Medicine("인슐린 글라진","혈당 조절",       "1회 자가주사",  "₩15,000", R.drawable.img_tylenol),
+                new Medicine("시타글립틴",   "혈당 조절",       "50mg 1회",      "₩6,000", R.drawable.img_tylenol),
+                new Medicine("글리벤클라미드","인슐린 분비 촉진","5mg 1회",       "₩4,200", R.drawable.img_tylenol),
+                new Medicine("에토글리플로진","혈당 배출 촉진", "10mg 1회",      "₩7,500", R.drawable.img_tylenol)
         ));
 
         // 기타 (3개)
         medicineData.put("기타", Arrays.asList(
-                new Medicine("비타민C",    "면역력 증진",    "500mg 1회",  "₩1,000"),
-                new Medicine("폴리덴탈겔","치은염 완화",    "3~4회 도포", "₩1,500"),
-                new Medicine("니코틴패치","금연 보조",      "21mg 1패치", "₩5,000")
+                new Medicine("비타민C",    "면역력 증진",    "500mg 1회",  "₩1,000", R.drawable.img_tylenol),
+                new Medicine("폴리덴탈겔","치은염 완화",    "3~4회 도포", "₩1,500", R.drawable.img_tylenol),
+                new Medicine("니코틴패치","금연 보조",      "21mg 1패치", "₩5,000", R.drawable.img_tylenol)
         ));
     }
 
@@ -518,6 +519,17 @@ public class SymptomSearchActivity extends BaseActivity {
             vh.usage.setText("복용법: " + m.getUsage());
             vh.price.setText("가격: " + m.getPrice());
 
+            // 📌 이미지 바인딩 추가
+            vh.image.setImageResource(m.getImageResId());
+
+            // ★ 여기에 클릭 리스너 추가
+            vh.image.setOnClickListener(v -> {
+                Context ctx = v.getContext();
+                Intent i = new Intent(ctx, FullscreenImageActivity.class);
+                i.putExtra(FullscreenImageActivity.EXTRA_RES_ID, m.getImageResId());
+                ctx.startActivity(i);
+            });
+
             // 돋보기 상태 적용
             applyZoomState(vh);  // 돋보기 상태 적용
         }
@@ -529,6 +541,7 @@ public class SymptomSearchActivity extends BaseActivity {
 
         static class VH extends RecyclerView.ViewHolder {
             final TextView name, efficacy, usage, price;
+            final ImageView image;   // ← 추가
 
             VH(View v) {
                 super(v);
@@ -536,6 +549,7 @@ public class SymptomSearchActivity extends BaseActivity {
                 efficacy = v.findViewById(R.id.tvMedEfficacy);
                 usage = v.findViewById(R.id.tvMedUsage);
                 price = v.findViewById(R.id.tvMedPrice);
+                image    = v.findViewById(R.id.ivMedImage);  // ← 초기화
             }
         }
 

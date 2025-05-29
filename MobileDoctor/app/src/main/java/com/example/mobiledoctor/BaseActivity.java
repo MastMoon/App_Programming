@@ -31,9 +31,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void applyZoomState() {
         boolean isZoomEnabled = sharedPreferences.getBoolean("isZoomEnabled", false);
         if (isZoomEnabled) {
-            setTextViewSize(30);  // 확대된 텍스트 크기
+            setTextViewSize(34);  // 확대된 텍스트 크기
         } else {
-            setTextViewSize(16);  // 기본 텍스트 크기
+            setTextViewSize(20);  // 기본 텍스트 크기
         }
     }
 

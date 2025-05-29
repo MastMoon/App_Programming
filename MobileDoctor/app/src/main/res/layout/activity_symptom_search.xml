@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +12,7 @@
         android:background="?attr/colorPrimary"
         app:menu="@menu/menu_symptom_search"
         app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="증상별 약 검색"
+        app:title="카테고리별 증상 약 검색"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
         app:titleTextColor="#FFFFFF" />
 
@@ -21,10 +20,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="16dp"
+        android:clipToPadding="false"
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:clipToPadding="false"
-        android:padding="16dp"
         android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
@@ -32,13 +31,93 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 1km 내 병원 -->
+            <!-- ■ 계열별 약 검색 수 -->
+            <TextView
+                android:id="@+id/medicine_count"
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="계열별 약 검색 수: 0"
+                android:textStyle="bold" />
+
+            <!-- ■ 카테고리 선택 (높이 넓힌 버전) -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_prompt"
+                android:layout_marginBottom="12dp"
+                app:boxCornerRadiusTopStart="4dp"
+                app:boxCornerRadiusTopEnd="4dp"
+                app:boxCornerRadiusBottomStart="4dp"
+                app:boxCornerRadiusBottomEnd="4dp">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="none"
+                    android:completionThreshold="1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- ■ 세부 증상 선택 -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/symptom_prompt"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spinner_sub"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:gravity="center_vertical"
+                    android:inputType="none"
+                    android:completionThreshold="1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- ★ 카테고리 선택 결과: 약 리스트 -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Shape.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_med_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"/>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-- ■ 굵은 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="?attr/colorPrimary"/>
+
+            <!-- ■ 1km 내 병원 -->
             <TextView
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="1km 내 병원"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/Shape.Medium"
@@ -59,7 +138,7 @@
                         style="@style/TextAppearance.Material3.BodyLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="병원 수: 0" />
+                        android:text="병원 수: 0"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_nearby_hospitals"
@@ -68,7 +147,7 @@
                         android:nestedScrollingEnabled="true"
                         android:overScrollMode="always"
                         android:scrollbars="vertical"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="8dp"/>
 
                     <TextView
                         android:id="@+id/no_hospitals_message"
@@ -83,19 +162,19 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 1km 내 약국 -->
+            <!-- ■ 1km 내 약국 -->
             <TextView
                 style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="1km 내 약국"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/Shape.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp"
                 android:padding="12dp">
@@ -110,7 +189,7 @@
                         style="@style/TextAppearance.Material3.BodyLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="약국 수: 0" />
+                        android:text="약국 수: 0"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_nearby_pharmacies"
@@ -119,7 +198,7 @@
                         android:nestedScrollingEnabled="true"
                         android:overScrollMode="always"
                         android:scrollbars="vertical"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="8dp"/>
 
                     <TextView
                         android:id="@+id/no_pharmacies_message"
@@ -132,65 +211,6 @@
                         android:visibility="gone"
                         android:layout_marginTop="8dp"/>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- 계열별 약 검색 -->
-            <TextView
-                android:id="@+id/medicine_count"
-                style="@style/TextAppearance.Material3.TitleMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="계열별 약 검색 수: 0"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- 카테고리 -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/category_prompt"
-                android:layout_marginBottom="12dp">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinner_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:completionThreshold="1"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- 세부 증상 -->
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/symptom_prompt"
-                android:layout_marginBottom="16dp">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinner_sub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:completionThreshold="1"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- 약 리스트 -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/Shape.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_med_results"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_marginBottom="16dp"/>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

@@ -47,6 +47,13 @@
         <activity
             android:name=".InventoryActivity"
             android:exported="false" />
+
+        <!-- 풀스크린 이미지 보기용 액티비티 -->
+        <activity
+            android:name=".FullscreenImageActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MobileDoctor.Fullscreen" />
+
     </application>
 
 </manifest>
